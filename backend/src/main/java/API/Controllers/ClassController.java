@@ -1,10 +1,10 @@
-package register.api.Controllers;
+package API.Controllers;
 //
+import API.Models.MClass;
+import API.Repositories.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import register.api.Models.ClassModel;
-import register.api.Repositories.ClassRepository;
 
 import java.util.UUID;
 
@@ -15,20 +15,20 @@ public class ClassController {
     private ClassRepository classRepository;
 
     @PostMapping(path =  "/")
-    public @ResponseBody String addNewClass (@RequestBody ClassModel classModel) {
-        if( ClassModel.choicefields(classModel) ) {
-            classRepository.save(classModel);
+    public @ResponseBody String addNewClass (@RequestBody MClass mClass) {
+        if( MClass.choicefields(mClass) ) {
+            classRepository.save(mClass);
             return "Created a new class";
         }
         return "Failed a new class";
     }
     @GetMapping(path = "/")
-    public @ResponseBody Iterable<ClassModel> getAllClasses() {
+    public @ResponseBody Iterable<MClass> getAllClasses() {
         return classRepository.findAll();
     }
     @GetMapping(path = "{id}")
     public  @ResponseBody
-    ClassModel getClass(@PathVariable("id")  UUID id) {
+    MClass getClass(@PathVariable("id")  UUID id) {
         return classRepository.findById(id);
     }
 
@@ -38,21 +38,21 @@ public class ClassController {
         return  "Deleted Class";
     }
     @PostMapping(path = "/student")
-    public @ResponseBody String addStudent(@RequestBody UUID classroom , UUID student) {
-       ClassModel classModel = classRepository.findById(classroom);
-       classModel.addStudent(student);
+    public @ResponseBody String addStudent(@RequestBody UUID ID , UUID student) {
+       MClass mClass = classRepository.findById(ID);
+       mClass.addStudent(student);
        return "Added student to classroom";
     }
     @PostMapping(path = "/student/remove")
-    public @ResponseBody String removeStudent(@RequestBody UUID classroom , UUID student) {
-        ClassModel classModel = classRepository.findById(classroom);
-        classModel.removeStudent(student);
+    public @ResponseBody String removeStudent(@RequestBody UUID ID , UUID student) {
+        MClass mClass = classRepository.findById(ID);
+        mClass.removeStudent(student);
         return "Removed student from class";
     }
     @PostMapping(path = "/student/change")
-    public @ResponseBody String changeStudent(@RequestBody UUID classroom , UUID oldStudent, UUID newStudent ) {
-        ClassModel classModel = classRepository.findById(classroom);
-        classModel.changeStudent(oldStudent , newStudent);
+    public @ResponseBody String changeStudent(@RequestBody UUID classroom , UUID oStudent, UUID nStudent ) {
+        MClass mClass = classRepository.findById(classroom);
+        mClass.changeStudent(oStudent , nStudent);
         return  "Change students in class";
     }
 

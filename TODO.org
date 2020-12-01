@@ -1,0 +1,30 @@
+#+TITLE: Org Mode basics In Doom Emacs
+#+DESCRIPTION: I NEED TO LEARN ORG MODE.
+#+AUTHOR: Robel Schwarz
+
+* Frontend
+** Create A React App template
+*** Create Start Page
+*** Create Navbar
+*** Create User login form for Admin and student
+**** create axios request for signing in
+*** create dashboard for Admin and student
+*** create class sign up page for student
+**** TODO Axios post request
+*** TODO create student list and information for admin
+**** TODO Axios get request
+*** TODO create current class list page for students
+
+* Backend
+** TODO Setup RESTFULL API
+*** Create Models for: Teacher, Student, Class
+*** Connect To  MYSQL DataServer
+*** TODO connect to session
+*** TODO Create Login endpoint for admin and Student
+**** TODO login into user sessions
+** TODO Create Web Socket
+*** Connect to session
+*** TODO Create Messages for student login and track activity
+** TODO Add Authentication for sessions
+
+* TODO FINISH THIS OUTLINE

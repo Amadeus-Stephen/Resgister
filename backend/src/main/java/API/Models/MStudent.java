@@ -1,7 +1,5 @@
-package register.api.Models;
+package API.Models;
 
-
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,7 +7,7 @@ import java.util.UUID;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table
-public class StudentModel {
+public class MStudent {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private UUID id;
@@ -86,14 +84,14 @@ public class StudentModel {
 		this.passWord = passWord;
 	}
 
-	public static boolean choicefields(StudentModel student){
-		if (student.getGradeYear() == null|| student.getEmail().isBlank()) {
+	public static boolean choicefields(MStudent MStudent){
+		if (MStudent.getGradeYear() == null|| MStudent.getEmail().isBlank()) {
 		 return false;
 		}
 		System.out.println("Pass1");
-		System.out.println(student.getName());
-		for (int num = 0 ; num< student.getName().size() ; num++) {
-			if (student.getName().get(num) == null) {
+		System.out.println(MStudent.getName());
+		for (int num = 0; num< MStudent.getName().size() ; num++) {
+			if (MStudent.getName().get(num) == null) {
 				return false;
 			}
 		}

@@ -1,4 +1,4 @@
-package register.api.Models;
+package API.Models;
 
 
 import javax.persistence.*;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table
-public class ClassModel {
+public class MClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -47,8 +47,8 @@ public class ClassModel {
             studentList.set(index, newStudentID);
         }
     }
-    public static boolean choicefields(ClassModel classModel){
-        if (classModel.getTeacher() ==null|| classModel.getClassName() == null ) {
+    public static boolean choicefields(MClass mclass){
+        if (mclass.getTeacher() ==null|| mclass.getClassName() == null ) {
             return false;
         }
         return true;

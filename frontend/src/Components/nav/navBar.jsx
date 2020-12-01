@@ -1,7 +1,7 @@
 import React , {Component} from "react"
-import {Accordion} from "react-bootstrap"
-import LeftNavCard from "./navComponents/leftNavCard"
-import LeftNavDrop from "./navComponents/leftNavDrop"
+import {Accordion, Button, Card, Navbar} from "react-bootstrap"
+import ListItem from "./navComponents/listItem"
+import DropDownItem from "./navComponents/dropDownItem"
 export default class LeftNav extends Component {
     constructor(props) {
         super(props)
@@ -29,29 +29,29 @@ export default class LeftNav extends Component {
     render() {
         return (
         <div>
-            <nav className="navbar navbar-light primebg">
-                <button className="btn primebg openbtn" onClick={this.OpenNav}>
+            <Navbar className="primebg fixed-top">
+                <Button className="primebg openbtn" onClick={this.OpenNav}>
                     <span className="primecolor">Jacket </span>
-                </button>
-            </nav>
-            <div id="mySideBar" className="sidebar" ref={this.leftNavRef}>
+                </Button>
+            </Navbar>
+            <div className="sidebar" ref={this.leftNavRef}>
                 <p className="closebtn" onClick={this.CloseNav}>
                     &times;
                 </p>
-                <div className="card primebg">
-                    <div className="card-header">
+                <Card className="primebg">
+                    <Card.Header>
                         <h5 className="mb-0" >
-                            <button className="btn btn-link collapsed">
+                            <Button className="collapsed" variant="link">
                                 Home
-                            </button>
+                            </Button>
                         </h5>
-                    </div>
+                    </Card.Header>
                     <Accordion>
-                        <LeftNavDrop title="hellodrop" text="goga boga" num="1" />
-                        <LeftNavDrop title="hellodrop2" text="goga boga2" num="2" />
-                        <LeftNavCard text="hello" />
+                        <DropDownItem title="hellodrop" text="goga boga" num="1" />
+                        <DropDownItem title="hellodrop2" text="goga boga2" num="2" />
+                        <ListItem text="hello" />
                     </Accordion>
-                </div>
+                </Card>
             </div>
         </div>
         )

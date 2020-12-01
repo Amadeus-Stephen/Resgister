@@ -4,15 +4,22 @@ import {Card , Form , Button} from 'react-bootstrap'
 //import ThrowMessage from  "../utils/throwMessage"
 
 export default class Signup extends Component {
+	_isMounted = false;
     constructor(props) {
         super(props)
         this.state = {
-            username: '',
+            email: '',
             password: '',
             confirmPassword: '',
         }
 		this.handleSubmit = this.handleSubmit.bind(this)
-    }
+	}
+	componentDidMount() {
+		this._isMounted = true;
+	}
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
 
     handleChange(event) {
 	 	this.setState({
@@ -22,19 +29,18 @@ export default class Signup extends Component {
     
     handleSubmit(event) {
 		event.preventDefault()
-		console.log(this.state)
-        //this.props.Signup(this.state.username , this.state.password , this.state.confirmPassword) 
+		this.props.login(this.state.email , this.state.password , this.state.confirmPassword);
     }
     render() {
         return (
-		<div className="col-md-6 mt-1 m-auto">
+		<div className="col-md-6 mt-1 m-auto ">
 		  <Card className="card-body primebg">
-			<h1 className="text-center mb-3">Signup</h1>
+			<h1 className="text-center mb-3">Login</h1>
 			<Form onSubmit={this.handleSubmit}>
 			  <Form.Group> 
 				{/* {this.renderErrors()} */}
-				<Form.Label >Name</Form.Label>
-				<Form.Control onChange={e => this.handleChange(e)}  value={this.state.username} id="name" name="username"  placeholder="Enter Name" />
+				<Form.Label>Email</Form.Label>
+				<Form.Control type="email" onChange={e => this.handleChange(e)}  value={this.state.email} id="email" name="email"  placeholder="Enter Email" />
 			  </Form.Group>
 			  <Form.Group >
 				<Form.Label>Password</Form.Label>
@@ -44,9 +50,8 @@ export default class Signup extends Component {
 				<Form.Label >Confirm Password</Form.Label>
 				<Form.Control onChange={e => this.handleChange(e)} value={this.state.confirmPassword} type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-Enter Password" />
 			  </Form.Group>
-			  <Button type="submit" className="btn-primary btn-block">Signup</Button>
+			  <Button type="submit" className="btn-primary btn-block">Login</Button>
 			</Form>
-			<p className="lead mt-4">Have An Account? <Link to="/login">Login</Link></p>
 		  </Card>
 		 </div>
         )

@@ -1,8 +1,9 @@
-package register.api.Repositories;
+package API.Repositories;
 //
+import API.Models.MStudent;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import register.api.Models.StudentModel;
+
 
 import java.util.Optional;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
 //// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 //// CRUD refers Create, Read, Update, Delete
 @Repository
-public interface StudentRepository extends CrudRepository<StudentModel, Integer> {
+public interface StudentRepository extends CrudRepository<MStudent, Integer> {
+    Optional<MStudent> findById(UUID id);
 
-    Optional<StudentModel> findById(UUID id);
 }

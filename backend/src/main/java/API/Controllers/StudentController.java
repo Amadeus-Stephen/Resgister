@@ -1,11 +1,12 @@
-package register.api.Controllers;
+package API.Controllers;
 //
 
+import API.Models.MStudent;
+import API.Repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import register.api.Models.StudentModel;
-import register.api.Repositories.StudentRepository;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,21 +18,21 @@ public class StudentController {
 	private StudentRepository studentRepository;
 
 	@PostMapping(path="/") // Map ONLY POST Requests
-	public @ResponseBody String addNewStudent (@RequestBody StudentModel student) {
-		if (StudentModel.choicefields(student)) {
-			studentRepository.save(student);
+	public @ResponseBody String addNewStudent (@RequestBody MStudent MStudent) {
+		if (MStudent.choicefields(MStudent)) {
+			studentRepository.save(MStudent);
 			return "created a new student";
 		}
 		return  "some fields are missing";
 	}
 
 	@GetMapping(path="/")
-	public @ResponseBody Iterable<StudentModel> getAllStudents() {
+	public @ResponseBody Iterable<MStudent> getAllStudents() {
 		return studentRepository.findAll();
 	}
 	@GetMapping(path = "{id}")
 	public @ResponseBody
-	Optional<StudentModel> getStudentById(@PathVariable("id")UUID id) {
+	Optional<MStudent> getStudentById(@PathVariable("id")UUID id) {
 		return studentRepository.findById(id);
 	}
 }

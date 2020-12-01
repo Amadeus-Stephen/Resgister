@@ -1,4 +1,4 @@
-package register.api.Models;
+package API.Models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -6,16 +6,16 @@ import java.util.UUID;
 
 @Entity
 @Table
-public class TeacherModel {
+public class MTeacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     private String firstName;
     private String lastName;
     private String middleName;
     private String email;
-    private String passWord;
+    private String password;
 
 
     public UUID getId() {
@@ -61,23 +61,23 @@ public class TeacherModel {
     }
 
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 
-    public static boolean choicefields(TeacherModel teacher){
-        if (teacher.getEmail().isBlank()) {
+    public static boolean choicefields(MTeacher MTeacher){
+        if (MTeacher.getEmail().isBlank()) {
             return false;
         }
         System.out.println("Pass1");
-        System.out.println(teacher.getName());
-        for (int num = 0 ; num< teacher.getName().size() ; num++) {
-            if (teacher.getName().get(num) == null) {
+        System.out.println(MTeacher.getName());
+        for (int num = 0; num< MTeacher.getName().size() ; num++) {
+            if (MTeacher.getName().get(num) == null) {
                 return false;
             }
         }
