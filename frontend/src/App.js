@@ -7,6 +7,8 @@ import "./w3.css"
 import Home from "./Components/pages/home"
 import AdminLogin from "./Components/pages/admin/adminLogin"
 import StudentLogin from "./Components/pages/student/studentLogin"
+import AuthenticationService from "./service/AuthenticationService"
+import Axios from "axios"
 class App extends Component {
   _isMounted = false;
   constructor() {
@@ -15,6 +17,8 @@ class App extends Component {
       // this.SignUp = this.SignUp.bind(this)
       this.socketClient = React.createRef();
       this.state ={ logedIn : false}
+      this.AdminLogin = this.AdminLogin.bind(this)
+      this.StudentLogin = this.StudentLogin.bind(this)
   }
 
   componentDidMount() {
@@ -28,6 +32,12 @@ class App extends Component {
   }
   StudentLogin(username , password) {
 
+    AuthenticationService.executeBasicAuthenticationService(username , password).then(() => {
+      AuthenticationService.registerSuccessfulLogin(username   , password )
+	  console.log("auth pass")
+    }).catch((e) => {
+      console.log("auth failed", e)
+    })
   }
   render() {
     let socket
@@ -48,8 +58,8 @@ class App extends Component {
       {socket}
       <div className="center page">
       <Route path="/" exact render={() => <Home />} />
-      <Route path="/admin/login" render={() => <AdminLogin SignUp={this.SignUp}/>} />
-      <Route path="/student/login" render={() => <StudentLogin />} />
+      <Route path="/admin/login" render={() => <AdminLogin login={this.AdminLogin} /> } />
+      <Route path="/student/login" render={() => <StudentLogin login={this.StudentLogin}/> } />
       </div>
       </div>
     )

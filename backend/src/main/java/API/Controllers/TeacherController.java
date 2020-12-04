@@ -18,15 +18,15 @@ public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping(path="/")
     public @ResponseBody String addNewTeacher (@RequestBody MTeacher MTeacher) {
         if (MTeacher.choicefields(MTeacher)) {
-            String encodedPassword = bCryptPasswordEncoder.encode(MTeacher.getPassword());
-            MTeacher.setPassword(encodedPassword);
-            teacherRepository.save(MTeacher);
+//            String encodedPassword = bCryptPasswordEncoder.encode(MTeacher.getPassword());
+//            MTeacher.setPassword(encodedPassword);
+//            teacherRepository.save(MTeacher);
             return "created a new student";
         }
         return  "some fields are missing";

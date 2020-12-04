@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link , /*Redirect */} from 'react-router-dom'
 import {Card, Form , Button}from 'react-bootstrap'
-
+import Axios from 'axios'
 
 export default class studentLogin extends Component {
     _isMounted = false;
@@ -12,6 +12,7 @@ export default class studentLogin extends Component {
             password: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handlePost = this.handlePost.bind(this)
     }
     componentDidMount() {
         this._isMounted = true;
@@ -29,6 +30,11 @@ export default class studentLogin extends Component {
         event.preventDefault()
         this.props.login(this.state.username , this.state.password)
     }
+    handlePost(){
+	    Axios.get("http://localhost:8080/teacher/").then((repsonse) => {
+		  console.log(repsonse.data)
+	  })
+    }
     render() {
         return (
             <div className="col-md-6 mt-1 m-auto ">
@@ -44,6 +50,7 @@ export default class studentLogin extends Component {
 				            <Form.Control onChange={e => this.handleChange(e)} value={this.state.password} type="password"   id="password" name="password" placeholder="Enter Password" />
 			            </Form.Group>
                         <Button type="submit" className="btn-primary btn-block">Login</Button>
+                        <Button className="btn-primary btn-block" onClick={this.handlePost}>Post</Button>
                     </Form>
                 </Card>
             </div>
