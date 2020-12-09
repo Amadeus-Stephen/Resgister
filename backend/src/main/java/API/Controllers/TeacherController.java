@@ -33,11 +33,15 @@ public class TeacherController {
         return  "some fields are missing";
     }
 
-    @GetMapping(path="/")
-    public @ResponseBody Iterable<MTeacher> getAllTeachers() {
-        return teacherRepository.findAll();
+//    @GetMapping(path="/")
+//    public @ResponseBody Iterable<MTeacher> getAllTeachers() {
+//        return teacherRepository.findAll();
+//    }
+    @GetMapping(path = "/")
+    public  @ResponseBody String getlt() {
+        System.out.println("hello USer");
+        return  "reutrn teacher";
     }
-
     @GetMapping(path = "{id}")
     public @ResponseBody
     Optional<MTeacher> getTeacherById(@PathVariable("id")UUID id) {

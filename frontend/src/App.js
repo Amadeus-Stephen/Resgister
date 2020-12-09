@@ -19,15 +19,14 @@ class App extends Component {
       this.state ={ logedIn : false}
       this.AdminLogin = this.AdminLogin.bind(this)
 	  this.StudentLogin = this.StudentLogin.bind(this)
-	  this.meth = this.meth.bind(this)
   }
 
   componentDidMount() {
     this._isMounted = true;
     AuthenticationService.setupAxiosInterceptors(AuthenticationService.getSessionToken())
-    console.log(AuthenticationService.getSessionToken())
+    // console.log(AuthenticationService.getSessionToken())
     console.log(AuthenticationService.isUserLoggedIn())
-    
+    Axios.get(`${this.proxy}/teacher/`).then(response => {console.log(response.data)})
   }
   componentWillUnmount() {
     this._isMounted = false;
@@ -40,7 +39,13 @@ class App extends Component {
     .executeJwtAuthenticationService(username, password)
     .then((response) => {
         AuthenticationService.registerSuccessfulLoginForJwt(username, response.data.token)
-        console.log(response.data)
+		console.log(response.data)
+
+
+	}).then(() => {
+
+		Axios.get(`${this.proxy}/teacher/`, response => { console.log(response)
+	})
     }).catch((e) => {
       console.log(e);
     })
