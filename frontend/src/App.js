@@ -18,11 +18,16 @@ class App extends Component {
       this.socketClient = React.createRef();
       this.state ={ logedIn : false}
       this.AdminLogin = this.AdminLogin.bind(this)
-      this.StudentLogin = this.StudentLogin.bind(this)
+	  this.StudentLogin = this.StudentLogin.bind(this)
+	  this.meth = this.meth.bind(this)
   }
 
   componentDidMount() {
     this._isMounted = true;
+    AuthenticationService.setupAxiosInterceptors(AuthenticationService.getSessionToken())
+    console.log(AuthenticationService.getSessionToken())
+    console.log(AuthenticationService.isUserLoggedIn())
+    
   }
   componentWillUnmount() {
     this._isMounted = false;
@@ -31,12 +36,13 @@ class App extends Component {
 
   }
   StudentLogin(username , password) {
-
-    AuthenticationService.executeBasicAuthenticationService(username , password).then(() => {
-      AuthenticationService.registerSuccessfulLogin(username   , password )
-	  console.log("auth pass")
+    AuthenticationService
+    .executeJwtAuthenticationService(username, password)
+    .then((response) => {
+        AuthenticationService.registerSuccessfulLoginForJwt(username, response.data.token)
+        console.log(response.data)
     }).catch((e) => {
-      console.log("auth failed", e)
+      console.log(e);
     })
   }
   render() {
@@ -59,7 +65,7 @@ class App extends Component {
       <div className="center page">
       <Route path="/" exact render={() => <Home />} />
       <Route path="/admin/login" render={() => <AdminLogin login={this.AdminLogin} /> } />
-      <Route path="/student/login" render={() => <StudentLogin login={this.StudentLogin}/> } />
+	<Route path="/student/login" render={() => <StudentLogin login={this.StudentLogin} /> } />
       </div>
       </div>
     )

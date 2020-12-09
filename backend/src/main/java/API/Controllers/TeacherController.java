@@ -23,6 +23,7 @@ public class TeacherController {
 
     @PostMapping(path="/")
     public @ResponseBody String addNewTeacher (@RequestBody MTeacher MTeacher) {
+        System.out.println("hello nigga");
         if (MTeacher.choicefields(MTeacher)) {
 //            String encodedPassword = bCryptPasswordEncoder.encode(MTeacher.getPassword());
 //            MTeacher.setPassword(encodedPassword);
