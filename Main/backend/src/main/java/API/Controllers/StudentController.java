@@ -25,7 +25,7 @@ public class StudentController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
-	private UserDetailsService jwtInMemoryUserDetailsService;
+	private UserDetailsService jwtUserDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -64,7 +64,7 @@ public class StudentController {
 		String jwtToken = requestTokenHeader.substring(7);
 		String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 
-		JwtUserDetails userDetails = (JwtUserDetails) this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
+		JwtUserDetails userDetails = (JwtUserDetails) this.jwtUserDetailsService.loadUserByUsername(username);
 
 		for (int num1 = 0  ; num1 < roles.length; num1++ ) {
 			if (roles[num1].equals(userDetails.getRole())) {

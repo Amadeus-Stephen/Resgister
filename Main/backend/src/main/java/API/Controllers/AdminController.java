@@ -1,6 +1,6 @@
 package API.Controllers;
 
-import API.Repositories.TeacherRepository;
+import API.Repositories.AdminRepository;
 import API.jwt.JwtTokenUtil;
 import API.jwt.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +12,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.UUID;
 
-import API.Models.MTeacher;
+import API.Models.MAdmin;
 
 @Controller
-@RequestMapping(path="/teacher")
-public class TeacherController {
+@RequestMapping(path="/admin")
+public class AdminController {
 
     @Autowired
-    private TeacherRepository teacherRepository;
+    private AdminRepository adminRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsService jwtUserDetailsService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path="/")
-    public @ResponseBody String addNewTeacher ( @RequestHeader("Authorization") String requestTokenHeader,@RequestBody MTeacher mteacher ) {
-        if (checkAuth(new String[]{"admin"} , requestTokenHeader)) {
-            if (MTeacher.choicefields(mteacher)) {
+    public @ResponseBody String addNewTeacher ( @RequestHeader("Authorization") String requestTokenHeader,@RequestBody MAdmin mteacher ) {
+        if (checkAuth(new String[]{"director"} , requestTokenHeader)) {
+            if (MAdmin.choicefields(mteacher)) {
                 String encodedPassword = bCryptPasswordEncoder.encode(mteacher.getPassword());
                 mteacher.setPassword(encodedPassword);
-                teacherRepository.save(mteacher);
+                adminRepository.save(mteacher);
                 return "created a new teacher";
             }
             return  "some fields are missing";
@@ -45,25 +45,25 @@ public class TeacherController {
     }
 
     @GetMapping(path="/")
-    public @ResponseBody Iterable<MTeacher> getAllTeachers(@RequestHeader("Authorization") String requestTokenHeader) {
-        if (checkAuth(new String[]{"teacher" , "admin"} , requestTokenHeader)) {
+    public @ResponseBody Iterable<MAdmin> getAllTeachers(@RequestHeader("Authorization") String requestTokenHeader) {
+        if (checkAuth(new String[]{"teacher" , "director"} , requestTokenHeader)) {
             System.out.println("all");
-            return teacherRepository.findAll();
+            return adminRepository.findAll();
         }
         System.out.println("fail");
         return null;
     }
     @GetMapping(path = "{id}")
     public @ResponseBody
-    Optional<MTeacher> getTeacherById(@PathVariable("id")UUID id) {
-        return teacherRepository.findById(id);
+    Optional<MAdmin> getTeacherById(@PathVariable("id")UUID id) {
+        return adminRepository.findById(id);
     }
 
     public boolean checkAuth(String[] roles, String requestTokenHeader) {
         String jwtToken = requestTokenHeader.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 
-        JwtUserDetails userDetails = (JwtUserDetails) this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
+        JwtUserDetails userDetails = (JwtUserDetails) this.jwtUserDetailsService.loadUserByUsername(username);
 
         for (int num1 = 0  ; num1 < roles.length; num1++ ) {
            if (roles[num1].equals(userDetails.getRole())) {

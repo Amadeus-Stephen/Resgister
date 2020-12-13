@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Entity
 @Table
-public class MTeacher {
+public class MAdmin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -70,17 +70,17 @@ public class MTeacher {
     public String getPassword() {return  password;}
 
     public void setPassword(String password ) { this.password = password;}
-    public static boolean choicefields(MTeacher MTeacher){
+    public static boolean choicefields(MAdmin MAdmin){
         if (
-                MTeacher.getEmail().isBlank()
-                        || MTeacher.getUsername().isBlank()
-                        || MTeacher.getRole().isBlank()
-                        || MTeacher.getPassword().isBlank())
+                MAdmin.getEmail().isBlank()
+                        || MAdmin.getUsername().isBlank()
+                        || MAdmin.getRole().isBlank()
+                        || MAdmin.getPassword().isBlank())
         {
             return false;
         }
-        for (int num = 0; num< MTeacher.getName().size() ; num++) {
-            if (MTeacher.getName().get(num) == null) {
+        for (int num = 0; num< MAdmin.getName().size() ; num++) {
+            if (MAdmin.getName().get(num) == null) {
                 return false;
             }
         }

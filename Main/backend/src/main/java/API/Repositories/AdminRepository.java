@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import API.Models.MTeacher;
+import API.Models.MAdmin;
 
 @Repository
-public interface TeacherRepository extends CrudRepository <MTeacher, Long> {
-    Optional<MTeacher> findById(UUID id);
-    MTeacher findByUsername(String username);
+public interface AdminRepository extends CrudRepository <MAdmin, Long> {
+    Optional<MAdmin> findById(UUID id);
+    MAdmin findByUsername(String username);
 }

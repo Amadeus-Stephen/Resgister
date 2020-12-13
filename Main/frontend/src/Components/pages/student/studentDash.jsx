@@ -56,7 +56,7 @@ export default class StudentDash extends Component {
 		// 	}
         // }).then((response) => {console.log(response.data)})
 
-        Axios.get(`${this.props.proxy}/teacher/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
+        Axios.get(`${this.props.proxy}/user/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
     }
     componentWillUnmount() {
         this._isMounted = false
