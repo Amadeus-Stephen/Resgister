@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 // import SockJsClient from 'react-stomp'
 // import axios from "axios"
-import {BrowserRouter as Redirect, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import "./App.css"
 import "./w3.css"
 import Home from "./Components/pages/home"
@@ -22,11 +23,11 @@ class App extends Component {
   	}
   	componentDidMount() {
 		this._isMounted = true;
-    	AuthenticationService.setupAxiosInterceptors(AuthenticationService.getSessionToken())
-    	// console.log(AuthenticationService.getSessionToken())
-    	console.log(AuthenticationService.isUserLoggedIn())
-    	this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
-		Axios.get(`${this.proxy}/teacher/`).then(response => {console.log(response.data)})
+		console.log(AuthenticationService.isUserLoggedIn())
+		this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
+        // Axios.get(`${this.proxy}/teacher/`).then(response => {console.log(response.data)})
+        // Axios.get(`${this.proxy}/student/`).then((response) => {console.log(response.data)})
+		
   	}
   	componentWillUnmount() {
 		this._isMounted = false;
@@ -49,10 +50,16 @@ class App extends Component {
     <div>
       {/* {socket} */}
 		<div className="center page">
-			<Route path="/" exact render={() => <Home />} />
-			<Route path="/admin/login" render={() => <AdminLogin /> } />
-			<Route path="/student/login" render={() => <StudentLogin /> } />
-			<AuthenticatedRoute path="/student/dash" exact redirect="/student/login" render= {() => { <StudentDash login={this.state.logedIn} /> }} />
+			<Router>
+				<Switch>
+					<Route path="/" exact render={() => <Home />} />
+					<Route path="/admin/login"  render={() => <AdminLogin /> } />
+					<Route path="/student/login"  render={() => <StudentLogin /> } />
+					<AuthenticatedRoute path="/student/dash"  redirect="/student/login" >
+						<StudentDash proxy={this.proxy}/>
+					</AuthenticatedRoute>
+				</Switch>
+			</Router>
 		</div>
 	</div>
     )

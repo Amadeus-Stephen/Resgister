@@ -9,18 +9,18 @@ import java.util.UUID;
 @Table
 public class MStudent {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	private String username;
 	private String firstName;
 	private String lastName;
 	private String middleName;
 	private Integer gradeYear;
 	private String careerPath;
 	private String email;
-	private String passWord;
-
-
+	private String role;
+	private String password;
 	public UUID getId() {
 		return id;
 	}
@@ -29,6 +29,9 @@ public class MStudent {
 		this.id = id;
 	}
 
+	public String getUsername() {return  username;}
+
+	public void setUsername(String username) {this.username = username;}
 	public ArrayList<String> getName() {
 		ArrayList<String> fullName = new ArrayList<>();
 		fullName.add(firstName);
@@ -76,20 +79,20 @@ public class MStudent {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getRole() {return role;}
 
-	public String getPassWord() {
-		return passWord;
-	}
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
-	}
-
+	public void setRole(String role) {this.role = role;}
+	public String getPassword() {return  password;}
+	public  void  setPassword(String password) {this.password = password;}
 	public static boolean choicefields(MStudent MStudent){
-		if (MStudent.getGradeYear() == null|| MStudent.getEmail().isBlank()) {
-		 return false;
+		if (MStudent.getGradeYear() == null
+				|| MStudent.getEmail().isBlank()
+				|| MStudent.getUsername().isBlank()
+				|| MStudent.getRole().isBlank()
+				|| MStudent.getPassword().isBlank())
+		{
+			return false;
 		}
-		System.out.println("Pass1");
-		System.out.println(MStudent.getName());
 		for (int num = 0; num< MStudent.getName().size() ; num++) {
 			if (MStudent.getName().get(num) == null) {
 				return false;

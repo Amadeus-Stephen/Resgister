@@ -11,15 +11,19 @@ public class MClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private UUID teacher;
+    private UUID teacherId;
+    private String teacherName;
     public String className;
     private ArrayList<UUID> studentList = new ArrayList<UUID>();
 
     public UUID getId()  { return  id;}
     public void setId(UUID id) {this.id = id;}
 
-    public UUID getTeacher() {return teacher;}
-    public void setTeacher(UUID teacher) {this.teacher = teacher;}
+    public UUID getTeacherId() {return teacherId;}
+    public void setTeacherId(UUID teacherId) {this.teacherId = teacherId;}
+
+    public String getTeacherName() {return teacherName;}
+    public void setTeacherName(String teacherName) {this.teacherName =teacherName;}
 
     public String getClassName() {return className;}
     public void  setClassName(String className) {this.className = className;}
@@ -48,7 +52,7 @@ public class MClass {
         }
     }
     public static boolean choicefields(MClass mclass){
-        if (mclass.getTeacher() ==null|| mclass.getClassName() == null ) {
+        if (mclass.getTeacherId() == null|| mclass.getClassName().isBlank()|| mclass.getTeacherName().isBlank() ) {
             return false;
         }
         return true;

@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import {Card, Form , Button}from 'react-bootstrap'
 import AuthenticationService from "../../../service/AuthenticationService"
-import Axios from 'axios'
 
 export default class studentLogin extends Component {
     _isMounted = false;
@@ -50,8 +49,8 @@ export default class studentLogin extends Component {
                     <h1 className="text-center mb-3">Login</h1>
                     <Form onSubmit={this.handleSubmit} >
                         <Form.Group>
-                            <Form.Label >User Name</Form.Label>
-				            <Form.Control onChange={e => this.handleChange(e)}  value={this.state.username} id="name" name="username"  placeholder="Enter User Name" />
+                            <Form.Label>Username</Form.Label>
+				            <Form.Control onChange={e => this.handleChange(e)}  value={this.state.username}  id="name" name="username"  placeholder="Enter User Name" />
                         </Form.Group>
 			            <Form.Group >
 				            <Form.Label>Password</Form.Label>

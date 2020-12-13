@@ -13,5 +13,5 @@ import java.util.UUID;
 @Repository
 public interface StudentRepository extends CrudRepository<MStudent, Integer> {
     Optional<MStudent> findById(UUID id);
-
+    MStudent findByUsername(String username);
 }

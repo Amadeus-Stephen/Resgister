@@ -5,24 +5,26 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class JwtUserDetails implements UserDetails {
 
   private static final long serialVersionUID = 5155720064139820502L;
-
-  private final Long id;
+  private final UUID id;
   private final String username;
   private final String password;
+  private final String role;
   private final Collection<? extends GrantedAuthority> authorities;
 
-  public JwtUserDetails(Long id, String username, String password, String role) {
+  public JwtUserDetails(UUID id, String username, String password, String role) {
     this.id = id;
     this.username = username;
     this.password = password;
-
+    this.role = role;
     List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
     authorities.add(new SimpleGrantedAuthority(role));
 
@@ -30,7 +32,7 @@ public class JwtUserDetails implements UserDetails {
   }
 
   @JsonIgnore
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
@@ -67,6 +69,9 @@ public class JwtUserDetails implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;
   }
+
+
+  public String getRole() {return role;}
 
   @Override
   public boolean isEnabled() {

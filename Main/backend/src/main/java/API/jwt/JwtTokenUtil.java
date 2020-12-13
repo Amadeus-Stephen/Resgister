@@ -33,6 +33,8 @@ public class JwtTokenUtil implements Serializable {
     return getClaimFromToken(token, Claims::getSubject);
   }
 
+
+
   public Date getIssuedAtDateFromToken(String token) {
     return getClaimFromToken(token, Claims::getIssuedAt);
   }

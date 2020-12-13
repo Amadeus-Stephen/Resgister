@@ -7,7 +7,6 @@ export const USER_SESSION_TOKEN = 'authenticatedToken'
 class AuthenticationService {
 
     executeJwtAuthenticationService(username, password) {
-        console.log(username);
         return axios.post(`${API_URL}/authenticate`, {
             username,
             password
@@ -21,7 +20,7 @@ class AuthenticationService {
     registerSuccessfulLoginForJwt(username, token) {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         sessionStorage.setItem(USER_SESSION_TOKEN , this.createJWTToken(token))
-        this.setupAxiosInterceptors(this.getSessionToken())
+        // this.setupAxiosInterceptors(this.getSessionToken())
     }
     
     createJWTToken(token) {
@@ -48,16 +47,16 @@ class AuthenticationService {
         return user
     }
 
-    setupAxiosInterceptors(token) {
-        axios.interceptors.request.use(
-            (config) => {
-                if (this.isUserLoggedIn()) {
-                    config.headers.authorization = token
-                }
-                return config
-            }
-        )
-    }
+    // setupAxiosInterceptors(token) {
+    //     axios.interceptors.request.use(
+    //         (config) => {
+    //             if (this.isUserLoggedIn()) {
+    //                 config.headers.authorization = token
+    //             }
+    //             return config
+    //         }
+    //     )
+    // }
 }
 
 export default new AuthenticationService()
