@@ -45,13 +45,11 @@ public class AdminController {
     }
 
     @GetMapping(path="/")
-    public @ResponseBody Iterable<MAdmin> getAllTeachers(@RequestHeader("Authorization") String requestTokenHeader) {
+    public @ResponseBody Object getAllTeachers(@RequestHeader("Authorization") String requestTokenHeader) {
         if (checkAuth(new String[]{"teacher" , "director"} , requestTokenHeader)) {
-            System.out.println("all");
             return adminRepository.findAll();
         }
-        System.out.println("fail");
-        return null;
+        return "you do not have the privileges for this action";
     }
     @GetMapping(path = "{id}")
     public @ResponseBody

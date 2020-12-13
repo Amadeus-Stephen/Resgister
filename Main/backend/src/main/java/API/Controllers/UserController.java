@@ -47,7 +47,7 @@ public class UserController {
             studentData.add(student.getRole());
             return  studentData;
         }
-        return null;
+        return "you do not have the privileges for this action";
     }
 
     public JwtUserDetails getUserDetails(String requestTokenHeader ) {

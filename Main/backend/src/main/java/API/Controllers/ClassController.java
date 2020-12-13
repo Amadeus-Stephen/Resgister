@@ -24,10 +24,10 @@ public class ClassController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path =  "/")
-    public @ResponseBody String addNewClass (@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody MClass mclass) {
-        if (checkAuth(new String[] {"admin" } , requestTokenHeader)) {
-            if (MClass.choicefields(mclass)) {
-                classRepository.save(mclass);
+    public @ResponseBody String addNewClass (@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody MClass mClass) {
+        if (checkAuth(new String[] {"director" } , requestTokenHeader)) {
+            if (MClass.choicefields(mClass)) {
+                classRepository.save(mClass);
                 return "Created a new class";
             }
             return "Failed a new class";
@@ -39,11 +39,6 @@ public class ClassController {
         return classRepository.findAll();
     }
 
-    @GetMapping(path = "{id}")
-    public  @ResponseBody
-    MClass getClass(@PathVariable("id")  UUID classId) {
-        return classRepository.findById(classId);
-    }
 
     @DeleteMapping(path = "/")
     public @ResponseBody String removeClass (@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId) {
@@ -68,19 +63,19 @@ public class ClassController {
         return "you do not have the privileges for this action";
     }
     @PostMapping(path = "/student/remove")
-    public @ResponseBody String removeStudent(@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody UUID classId  , UUID student) {
+    public @ResponseBody String removeStudent(@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody UUID classId  , UUID studentId) {
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)) {
             MClass mClass = classRepository.findById(classId);
-            mClass.removeStudent(student);
+            mClass.removeStudent(studentId);
             return "Removed student from class";
         }
         return "you do not have the privileges for this action";
     }
     @PostMapping(path = "/student/change")
-    public @ResponseBody String changeStudent(@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId, UUID oStudent, UUID nStudent ) {
+    public @ResponseBody String changeStudent(@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId, UUID oStudentId, UUID nStudentId ) {
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)) {
             MClass mClass = classRepository.findById(classId);
-            mClass.changeStudent(oStudent, nStudent);
+            mClass.changeStudent(oStudentId, nStudentId);
             return "Change students in class";
         }
         return "you do not have the privileges for this action";

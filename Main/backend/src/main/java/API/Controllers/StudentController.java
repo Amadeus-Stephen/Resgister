@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,15 +32,15 @@ public class StudentController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@PostMapping(path="/") // Map ONLY POST Requests
-	public @ResponseBody String addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mstudent) {
+	public @ResponseBody String addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mStudent) {
 
 
 		if (checkAuth(new String[] {"admin"} ,requestTokenHeader)) {
 
-			if (MStudent.choicefields(mstudent)) {
-				String encodedPassword = bCryptPasswordEncoder.encode(mstudent.getPassword());
-				mstudent.setPassword(encodedPassword);
-				studentRepository.save(mstudent);
+			if (MStudent.choicefields(mStudent)) {
+				String encodedPassword = bCryptPasswordEncoder.encode(mStudent.getPassword());
+				mStudent.setPassword(encodedPassword);
+				studentRepository.save(mStudent);
 				return "created a new student";
 			}
 			return  "some fields are missing";
@@ -48,18 +49,14 @@ public class StudentController {
 	}
 
 	@GetMapping(path="/")
-	public @ResponseBody Iterable<MStudent> getAllStudents(@RequestHeader("Authorization") String requestTokenHeader) {
+	public @ResponseBody Object getAllStudents(@RequestHeader("Authorization") String requestTokenHeader) {
 
 		if (checkAuth(new String[]{"admin", "teacher"} , requestTokenHeader)) {
 			return studentRepository.findAll();
 		}
-		return null;
+		return "you do not have the privileges for this action";
 	}
-	@GetMapping(path = "{id}")
-	public @ResponseBody
-	Optional<MStudent> getStudentById(@PathVariable("id")UUID id) {
-		return studentRepository.findById(id);
-	}
+
 	public boolean checkAuth(String[] roles, String requestTokenHeader) {
 		String jwtToken = requestTokenHeader.substring(7);
 		String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
