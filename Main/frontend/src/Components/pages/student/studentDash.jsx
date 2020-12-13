@@ -8,7 +8,7 @@ export default class StudentDash extends Component {
     // }
     componentDidMount() {
         this._isMounted = true;
-        // console.log(AuthenticationService.getSessionToken())
+        console.log(AuthenticationService.getSessionToken())
         // Axios.post(`${this.props.proxy}/user/`, 
         // {
 		// 	username:"raschwarz23",
