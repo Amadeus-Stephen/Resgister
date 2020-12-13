@@ -1,9 +1,10 @@
+
 import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import {Card, Form , Button}from 'react-bootstrap'
-import AuthenticationService from "../../../service/AuthenticationService"
-
-export default class studentLogin extends Component {
+import AuthenticationService from "../../service/AuthenticationService"
+import Axios from "axios"
+export default class Login extends Component {
     _isMounted = false;
     constructor(props) {
         super(props)
@@ -34,7 +35,14 @@ export default class studentLogin extends Component {
                 AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
                 console.log(response.data)
             }).then(() => { 
-                this.setState({redirectTo:"/student/dash"})
+                Axios.get(`${this.props.proxy}/user/`, 
+                {headers: 
+                    {authorization: AuthenticationService.getSessionToken()
+                    }
+                }).then((response) => {
+                    console.log(response.data)
+                    this.setState({redirectTo:`/${response.data[2]}/dash`})
+                })
             }).catch((e) => {
                 console.log(e);
         })

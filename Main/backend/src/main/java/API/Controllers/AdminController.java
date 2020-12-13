@@ -31,7 +31,7 @@ public class AdminController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path="/")
-    public @ResponseBody String addNewTeacher ( @RequestHeader("Authorization") String requestTokenHeader,@RequestBody MAdmin mteacher ) {
+    public @ResponseBody String addNewAdmin ( @RequestHeader("Authorization") String requestTokenHeader,@RequestBody MAdmin mteacher ) {
         if (checkAuth(new String[]{"director"} , requestTokenHeader)) {
             if (MAdmin.choicefields(mteacher)) {
                 String encodedPassword = bCryptPasswordEncoder.encode(mteacher.getPassword());
@@ -45,16 +45,11 @@ public class AdminController {
     }
 
     @GetMapping(path="/")
-    public @ResponseBody Object getAllTeachers(@RequestHeader("Authorization") String requestTokenHeader) {
+    public @ResponseBody Object getAllAdmins(@RequestHeader("Authorization") String requestTokenHeader) {
         if (checkAuth(new String[]{"teacher" , "director"} , requestTokenHeader)) {
             return adminRepository.findAll();
         }
         return "you do not have the privileges for this action";
-    }
-    @GetMapping(path = "{id}")
-    public @ResponseBody
-    Optional<MAdmin> getTeacherById(@PathVariable("id")UUID id) {
-        return adminRepository.findById(id);
     }
 
     public boolean checkAuth(String[] roles, String requestTokenHeader) {

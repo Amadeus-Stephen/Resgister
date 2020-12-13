@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import "./App.css"
 import "./w3.css"
 import Home from "./Components/pages/home"
-import AdminLogin from "./Components/pages/admin/adminLogin"
-import StudentLogin from "./Components/pages/student/studentLogin"
+import Login from "./Components/pages/login"
 import StudentDash from "./Components/pages/student/studentDash"
+import DirectorDash from "./Components/pages/admin/director/directorDash"
+import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
 import AuthenticatedRoute from "./Components/utils/authenticateRoute"
 import AuthenticationService from "./service/AuthenticationService"
-import Axios from "axios"
+// import Axios from "axios"
 class App extends Component {
 	_isMounted = false;
 	constructor() {
@@ -53,10 +54,17 @@ class App extends Component {
 			<Router>
 				<Switch>
 					<Route path="/" exact render={() => <Home />} />
-					<Route path="/admin/login"  render={() => <AdminLogin /> } />
-					<Route path="/student/login"  render={() => <StudentLogin /> } />
-					<AuthenticatedRoute path="/student/dash"  redirect="/student/login" >
+					<Route path="/login" exact render={() => <Login proxy={this.proxy}/>} />
+					{/* <Route path="/admin/login"  render={() => <AdminLogin /> } />
+					<Route path="/student/login"  render={() => <StudentLogin /> } /> */}
+					<AuthenticatedRoute path="/student/dash"  redirect="/login" >
 						<StudentDash proxy={this.proxy}/>
+					</AuthenticatedRoute>
+					<AuthenticatedRoute path="/teacher/dash"  redirect="/login" >
+						<TeacherDash proxy={this.proxy}/>
+					</AuthenticatedRoute>
+					<AuthenticatedRoute path="/director/dash"  redirect="/login" >
+						<DirectorDash proxy={this.proxy}/>
 					</AuthenticatedRoute>
 				</Switch>
 			</Router>

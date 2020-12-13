@@ -22,13 +22,7 @@ export default class Home extends Component {
                     <h6>Manage/Register for your class</h6>
                     <span className="row">
                         <p className="lead mt-4 m-1">
-                            <Link to="/student/login">Student login </Link>
-                        </p>
-                        <p className="lead mt-4 m-1">
-                            Or 
-                        </p>
-                        <p className="lead mt-4 m-1">
-                            <Link to="/admin/login">Admin/Teacher login </Link>
+                            <Link to="/login">Login </Link>
                         </p>
                     </span>
                 </Card>
