@@ -1,22 +1,34 @@
 import React , {Component} from "react"
 import Axios from "axios"
 import AuthenticationService from "../../../../service/AuthenticationService";
+import NavBar from "../../../nav/navBar"
 export default class TeacherDash extends Component {
     _isMounted = false
-    // constructor(props) {
-    //     super(props)
-    // }
+    constructor(props) {
+        super(props)
+        this.state = {id:null, name:"", role:"" }
+    }
     componentDidMount() {
         this._isMounted = true;
-        Axios.get(`${this.props.proxy}/user/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
-        Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
+        Axios.get(`${this.props.proxy}/user/`,
+        {headers: 
+            {authorization: 
+                        AuthenticationService.getSessionToken()
+                    }
+        }).then((response) => {
+                    console.log(response.data)
+        })
+        // Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
     }
     componentWillUnmount() {
         this._isMounted = false
     }
     render() {
         return (
-         <div>Hello</div>   
+            <>
+            <NavBar role={this.state.role} />
+            <div>Hello</div>   
+            </>
         )
     }
 }
