@@ -11,23 +11,56 @@ public class MClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    private String className;
     private UUID teacherId;
     private String teacherName;
-    public String className;
-    private ArrayList<UUID> studentList = new ArrayList<UUID>();
+    private String startTime;
+    private String endTime;
+    private Integer runTime;
+    private ArrayList<UUID> studentList = new ArrayList<>();
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public void setTeacherId(UUID teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setRunTime(Integer runTime) {
+        this.runTime = runTime;
+    }
 
     public UUID getId()  { return  id;}
-    public void setId(UUID id) {this.id = id;}
 
-    public UUID getTeacherId() {return teacherId;}
-    public void setTeacherId(UUID teacherId) {this.teacherId = teacherId;}
-
-    public String getTeacherName() {return teacherName;}
-    public void setTeacherName(String teacherName) {this.teacherName =teacherName;}
 
     public String getClassName() {return className;}
-    public void  setClassName(String className) {this.className = className;}
 
+    public UUID getTeacherId() {return teacherId;}
+
+    public String getTeacherName() {return teacherName;}
+
+
+
+    public int getNumOfStudents() {
+        return studentList.size();
+    }
     public int getStudentIndex(UUID studentID) {
         for ( int num = 0; num < studentList.size() ; num++ ) {
             if (studentList.get(num) == studentID ) {

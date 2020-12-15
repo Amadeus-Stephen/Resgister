@@ -10,6 +10,7 @@ import API.Models.MAdmin;
 
 @Repository
 public interface AdminRepository extends CrudRepository <MAdmin, Long> {
-    Optional<MAdmin> findById(UUID id);
+    MAdmin findById(UUID id);
     MAdmin findByUsername(String username);
+    void delete(MAdmin admin);
 }

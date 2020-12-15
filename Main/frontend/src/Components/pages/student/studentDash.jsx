@@ -30,21 +30,6 @@ export default class StudentDash extends Component {
 		// }).then((response) => {console.log(response.data)})
 
         // Axios.get(`${this.props.proxy}/student/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
-        // Axios.post(`${this.props.proxy}/admin/`, 
-        // {
-        //     username: "jtjeffers",
-        //     firstName:"Jocab",
-        //     lastName:"Jeffers",
-        //     middleName:"Tyler",
-        //     email:"jacob.jeffers@wburg.kyschool.us",
-        //     role:"teacher",
-        //     password:"jj123"
-        // },
-        // {
-		// 	headers: {
-		// 		authorization: AuthenticationService.getSessionToken()
-		// 	}
-        // }).then((response) => {console.log(response.data)})
 
         Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
     }

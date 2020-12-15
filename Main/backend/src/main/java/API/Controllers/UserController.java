@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping(path ="/user")
@@ -29,25 +29,27 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping(path = "/")
-    public @ResponseBody Object getUserData(@RequestHeader("Authorization") String requestTokenHeader) {
+    public @ResponseBody HashMap<String, ? extends Object> getUserData(@RequestHeader("Authorization") String requestTokenHeader) {
         JwtUserDetails userDetails= getUserDetails(requestTokenHeader);
         if (userDetails.getRole().equals("director") || userDetails.getRole().equals("teacher")) {
             MAdmin mAdmin =  adminRepository.findByUsername(userDetails.getUsername());
-            ArrayList adminData = new ArrayList();
-            adminData.add(mAdmin.getId());
-            adminData.add(mAdmin.getName());
-            adminData.add(mAdmin.getRole());
-            return  adminData;
+            HashMap<String, Object> adminToJson = new HashMap<>();
+            adminToJson.put("id", mAdmin.getId());
+            adminToJson.put("name", mAdmin.getName());
+            adminToJson.put("role", mAdmin.getRole());
+            return adminToJson;
         }
         if (userDetails.getRole().equals("student")) {
             MStudent student = studentRepository.findByUsername(userDetails.getUsername());
-            ArrayList studentData = new ArrayList();
-            studentData.add(student.getId());
-            studentData.add(student.getName());
-            studentData.add(student.getRole());
-            return  studentData;
+            HashMap<String , Object> studentToJson = new HashMap<>();
+            studentToJson.put("id" , student.getId());
+            studentToJson.put("name", student.getName());
+            studentToJson.put("role", student.getRole());
+            return  studentToJson;
         }
-        return "you do not have the privileges for this action";
+        HashMap <String , String> responseMessage = new HashMap<>();
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
 
     public JwtUserDetails getUserDetails(String requestTokenHeader ) {

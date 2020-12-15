@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,26 +31,45 @@ public class AdminController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @PostMapping(path="/")
-    public @ResponseBody String addNewAdmin ( @RequestHeader("Authorization") String requestTokenHeader,@RequestBody MAdmin mteacher ) {
-        if (checkAuth(new String[]{"director"} , requestTokenHeader)) {
-            if (MAdmin.choicefields(mteacher)) {
-                String encodedPassword = bCryptPasswordEncoder.encode(mteacher.getPassword());
-                mteacher.setPassword(encodedPassword);
-                adminRepository.save(mteacher);
-                return "created a new teacher";
+    @PostMapping(path="/create")
+    public @ResponseBody HashMap<String, String> addNewAdmin (@RequestHeader("Authorization") String requestTokenHeader, @RequestBody MAdmin mAdmin ) {
+        HashMap <String , String> responseMessage = new HashMap<>();
+        if (checkAuth(new String[]{"director", "teacher"} , requestTokenHeader)) {
+            if (MAdmin.choicefields(mAdmin)) {
+                String encodedPassword = bCryptPasswordEncoder.encode(mAdmin.getPassword());
+                mAdmin.setPassword(encodedPassword);
+                adminRepository.save(mAdmin);
+                responseMessage.put("Success","Created a new admin");
+                return responseMessage;
             }
-            return  "some fields are missing";
+            responseMessage.put("Error","Some fields are missing");
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
 
     @GetMapping(path="/")
-    public @ResponseBody Object getAllAdmins(@RequestHeader("Authorization") String requestTokenHeader) {
+    public @ResponseBody HashMap<String, Object> getAllAdmins(@RequestHeader("Authorization") String requestTokenHeader) {
+        HashMap<String , Object> responseMessage = new HashMap<>();
         if (checkAuth(new String[]{"teacher" , "director"} , requestTokenHeader)) {
-            return adminRepository.findAll();
+            responseMessage.put("Success" , adminRepository.findAll());
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
+    }
+    @DeleteMapping(path = "/{adminId}")
+    public @ResponseBody Object removeAdmin(@PathVariable String adminId) {
+        HashMap <String , String> responseMessage = new HashMap<>();
+        System.out.println( adminId);
+        MAdmin mAdmin = adminRepository.findByUsername(adminId);
+        System.out.println(mAdmin);
+        if (mAdmin != null) {
+            adminRepository.delete(mAdmin);
+            return  "deleted admin";
+        }
+        return "admin not found";
     }
 
     public boolean checkAuth(String[] roles, String requestTokenHeader) {

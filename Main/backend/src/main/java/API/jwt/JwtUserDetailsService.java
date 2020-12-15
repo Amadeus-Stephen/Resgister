@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
   @Autowired
@@ -19,11 +24,12 @@ public class JwtUserDetailsService implements UserDetailsService {
   private StudentRepository studentRepository;
   @Autowired
   private AdminRepository adminRepository;
+
 //  static List<JwtUserDetails> inMemoryUserList = new ArrayList<>();
 //
 //  static {
 //    inMemoryUserList.add(new JwtUserDetails(UUID.randomUUID(), "in28minutes",
-//        "$2a$10$3zHzb.Npv1hfZbLEU5qsdOju/tk2je6W6PnNnY.c1ujWPcZh4PL6e", "ROLE_USER_2"));
+//        "$2a$10$3zHzb.Npv1hfZbLEU5qsdOju/tk2je6W6PnNnY.c1ujWPcZh4PL6e", "director"));
 //  }
 //
   @Override
@@ -45,10 +51,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     if (mAdmin != null) {return new JwtUserDetails(mAdmin.getId() , mAdmin.getUsername(), mAdmin.getPassword() , mAdmin.getRole());}
     throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
 
-//    return new JwtUserDetails(user.getId(),user.getUsername(), user.getPassword(), "student");
-//    UserDetails userDetails = new JwtUserDetails(null ,user.getUsername() , user.getPassword() , "student" );
-//    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword());
-//    return new User(user.getPassword() , user.getPassword())
   }
 }
 

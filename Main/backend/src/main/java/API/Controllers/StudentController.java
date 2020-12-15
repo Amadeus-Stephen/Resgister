@@ -11,9 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.HashMap;
+
 
 @Controller	// This means that this class is a Controller
 @RequestMapping(path="/student") // This means URL's start with /student (after Application path)
@@ -32,29 +31,34 @@ public class StudentController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@PostMapping(path="/") // Map ONLY POST Requests
-	public @ResponseBody String addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mStudent) {
-
+	public @ResponseBody HashMap<String, String> addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mStudent) {
+		HashMap<String , String> responseMessage = new HashMap<>();
 
 		if (checkAuth(new String[] {"admin"} ,requestTokenHeader)) {
-
 			if (MStudent.choicefields(mStudent)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(mStudent.getPassword());
 				mStudent.setPassword(encodedPassword);
 				studentRepository.save(mStudent);
-				return "created a new student";
+				responseMessage.put("Success","Created a new student");
+				return responseMessage;
 			}
-			return  "some fields are missing";
+			responseMessage.put("Error","Some fields are missing");
+			return responseMessage;
 		}
-		return "you do not have the privileges for this action";
+		responseMessage.put("Error","You do not have the privileges for this action" );
+		return responseMessage;
 	}
 
 	@GetMapping(path="/")
-	public @ResponseBody Object getAllStudents(@RequestHeader("Authorization") String requestTokenHeader) {
+	public @ResponseBody HashMap<String, Object> getAllStudents(@RequestHeader("Authorization") String requestTokenHeader) {
 
+		HashMap<String , Object> responseMessage = new HashMap<>();
 		if (checkAuth(new String[]{"admin", "teacher"} , requestTokenHeader)) {
-			return studentRepository.findAll();
+			responseMessage.put("Success", studentRepository.findAll());
+			return responseMessage;
 		}
-		return "you do not have the privileges for this action";
+		responseMessage.put("Error","You do not have the privileges for this action" );
+		return responseMessage;
 	}
 
 	public boolean checkAuth(String[] roles, String requestTokenHeader) {

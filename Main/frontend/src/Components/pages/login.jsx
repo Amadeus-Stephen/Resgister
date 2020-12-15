@@ -41,8 +41,26 @@ export default class Login extends Component {
                     }
                 }).then((response) => {
                     console.log(response.data)
-                    this.setState({redirectTo:`/${response.data[2]}/dash`})
+                    // this.setState({redirectTo:`/${response.data[2]}/dash`})
                 })
+
+                // Axios.post(`${this.props.proxy}/admin/create`, 
+                // {
+                //     username: "bwconn",
+                //     firstName:"Bill",
+                //     lastName:"Conn",
+                //     middleName:"Willam",
+                //     email:"bill.conn@wburg.kyschool.us",
+                //     role:"director",
+                //     password:"bc123"
+                // },
+                // {
+		        // 	headers: {
+		        // 		authorization: AuthenticationService.getSessionToken()
+		        // 	}
+                // }).then((response) => {console.log(response.data)})
+
+                // Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
             }).catch((e) => {
                 console.log(e);
         })
