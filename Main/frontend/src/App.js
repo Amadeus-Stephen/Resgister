@@ -1,15 +1,25 @@
 import React, { Component } from "react"
 // import SockJsClient from 'react-stomp'
 // import axios from "axios"
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router , Route,  } from 'react-router-dom'
 
 import "./App.css"
 import "./w3.css"
+
+//basic
 import Home from "./Components/pages/home"
 import Login from "./Components/pages/login"
+
+//Dash pages
 import StudentDash from "./Components/pages/student/studentDash"
 import DirectorDash from "./Components/pages/admin/director/directorDash"
 import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
+
+//Utils Admin
+import CreateNewUser from "./Components/pages/admin/director/createNewUser"
+
+//System
+import Navbar from "./Components/nav/navBar"
 import AuthenticatedRoute from "./Components/utils/authenticateRoute"
 import AuthenticationService from "./service/AuthenticationService"
 // import Axios from "axios"
@@ -58,21 +68,37 @@ class App extends Component {
     <div>
       {/* {socket} */}
 		<div className="center page">
-			<Router>
-				<Switch>
+			<Navbar role={this.state.role} />
+				<Router>
+
 					<Route path="/" exact render={() => <Home />} />
-					<Route path="/login" exact render={() => <Login proxy={this.proxy}/>} />
-					<AuthenticatedRoute path="/student/dash"  redirect="/login" >
-						<StudentDash proxy={this.proxy}/>
-					</AuthenticatedRoute>
+					<Route path="/login" exact render={() =>  <Login proxy={this.proxy}/>  } />
+					<Route path="/student/dash" render={() => 
+						<AuthenticatedRoute redirect="/login" >
+							<StudentDash proxy={this.proxy}/>
+						</AuthenticatedRoute>
+					} />
+
+					<Route path="/teacher/dash" render={() => 
+					
 					<AuthenticatedRoute path="/teacher/dash"  redirect="/login" >
 						<TeacherDash proxy={this.proxy}/>
 					</AuthenticatedRoute>
-					<AuthenticatedRoute path="/director/dash"  redirect="/login" >
-						<DirectorDash proxy={this.proxy} updateAppState={this.updateAppState} role={this.state.role}/>
-					</AuthenticatedRoute>
-				</Switch>
-			</Router>
+
+					} />
+
+					<Route path="/director/dash/"  render={() => 
+						<AuthenticatedRoute redirect="/login">
+							<DirectorDash proxy={this.proxy} updateAppState={this.updateAppState} />
+						</AuthenticatedRoute>
+					} />
+					<Route path="/director/create/user/"  render={() =>  
+						<AuthenticatedRoute redirect="/login" >
+							<CreateNewUser proxy={this.proxy} />
+						</AuthenticatedRoute>	
+					} />
+
+				</Router>
 		</div>
 	</div>
     )

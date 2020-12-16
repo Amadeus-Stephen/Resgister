@@ -12,12 +12,12 @@ export default class LeftNav extends Component {
 		this.leftNavRef = React.createRef();
 		this.overLayRef = React.createRef();
 
-
 	}
 	componentDidMount() {
 		this._isMounted = true;
 	}
 	componentWillUnmount() {
+
 		this._isMounted = false;
 	}
 	handleClick() {
@@ -31,7 +31,9 @@ export default class LeftNav extends Component {
 	renderNavButtons() {
 		return (
 			<div>
-				{(this.props.role === "director") ? <ListItem text="Add Teacher" link="/director/create/admin/"/>:""}
+				{(this.props.role === "director") ? 
+				<ListItem text="Add New User" link="/director/create/user/" handleClick={this.handleClick}/>
+				:""}
 			</div>   
 		)
 	}
@@ -47,10 +49,8 @@ export default class LeftNav extends Component {
 				<Card className="primebg mt-5">
 					<Card.Header className="mt-5">
 						<span className="mb-0" >
-							<Button  variant="link">
-								<p>
-									home
-								</p>
+							<Button  variant="link" onClick={this.handleClick}>
+								<Link to={`/${this.props.role}/dash`} >Home</Link>
 							</Button>
 						</span>
 					</Card.Header>
@@ -65,7 +65,7 @@ export default class LeftNav extends Component {
 				<Card className="primebg nav-link">
 					<Card.Header >
 						<h5 className="mb-0">
-							<Button variant="link" >
+							<Button variant="link" onClick={this.handleClick}>
 								<Link to="/" onClick={AuthenticationService.logout}>Logout</Link>
 							</Button>
 						</h5>

@@ -31,9 +31,9 @@ export default class DirectorDash extends Component {
     }
     render() {
         return (
-            <>
-            <NavBar role={this.props.role} />            
-            </>
+            <div>
+                Hello                
+            </div>
 
         )
     }

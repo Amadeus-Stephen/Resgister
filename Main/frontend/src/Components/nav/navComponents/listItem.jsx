@@ -4,9 +4,9 @@ import {Card , Button} from "react-bootstrap"
 export default function leftNavCard(props) {
         return (
 		<Card className="primebg">
-  			<Card.Header >
+  			<Card.Header>
       			<h5 className="mb-0">
-        			<Button variant="link"   >
+        			<Button variant="link" onClick={props.handleClick}>
 						<Link to={`${props.link}`}>
 						{props.text}
 						</Link>	
