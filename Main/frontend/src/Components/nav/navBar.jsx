@@ -1,8 +1,9 @@
 import React , {Component} from "react"
 import {Accordion, Button, Card, Navbar} from "react-bootstrap"
 import ListItem from "./navComponents/listItem"
-
+import AuthenticationService from "../../service/AuthenticationService"
 import DropDownItem from "./navComponents/dropDownItem"
+import { Link } from "react-router-dom"
 export default class LeftNav extends Component {
 	constructor(props) {
 		super(props)
@@ -46,7 +47,7 @@ export default class LeftNav extends Component {
 				<Card className="primebg mt-5">
 					<Card.Header className="mt-5">
 						<span className="mb-0" >
-							<Button className="collapsed" variant="link">
+							<Button  variant="link">
 								<p>
 									home
 								</p>
@@ -61,7 +62,15 @@ export default class LeftNav extends Component {
 					</Accordion>
 					
 				</Card>
-				<span className="nav-link">text-bottom</span>
+				<Card className="primebg nav-link">
+					<Card.Header >
+						<h5 className="mb-0">
+							<Button variant="link" >
+								<Link to="/" onClick={AuthenticationService.logout}>Logout</Link>
+							</Button>
+						</h5>
+					</Card.Header>
+				</Card>
 			</div>
 				<div
           			onClick={this.handleClick}
