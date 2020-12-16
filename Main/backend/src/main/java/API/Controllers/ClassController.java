@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 @Controller
@@ -24,66 +25,90 @@ public class ClassController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping(path =  "/")
-    public @ResponseBody String addNewClass (@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody MClass mclass) {
-        if (checkAuth(new String[] {"admin" } , requestTokenHeader)) {
-            if (MClass.choicefields(mclass)) {
-                classRepository.save(mclass);
-                return "Created a new class";
+    public @ResponseBody HashMap<String, Object> addNewClass (@RequestHeader("Authorization") String requestTokenHeader , @RequestBody MClass mClass) {
+        HashMap<String , Object> responseMessage = new HashMap<>();
+        if (checkAuth(new String[] {"director" } , requestTokenHeader)) {
+            if (MClass.choicefields(mClass)) {
+                classRepository.save(mClass);
+                responseMessage.put("Success", "Created a new class");
+                return responseMessage;
             }
-            return "Failed a new class";
+            responseMessage.put("Error","Some of the required fields are missing" );
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
     @GetMapping(path = "/")
     public @ResponseBody Iterable<MClass> getAllClasses() {
         return classRepository.findAll();
     }
 
-    @GetMapping(path = "{id}")
-    public  @ResponseBody
-    MClass getClass(@PathVariable("id")  UUID classId) {
-        return classRepository.findById(classId);
+    @GetMapping("/teacher/{teacherId}")
+    public @ResponseBody HashMap<String, Object> getClassByTeacherId(@RequestHeader("Authorization") String requestTokenHeader, @PathVariable UUID teacherId) {
+        HashMap<String , Object> responseMessage = new HashMap<>();
+        if (checkAuth(new String[] {"director" , "teacher"} , requestTokenHeader)) {
+            responseMessage.put("Success", classRepository.findById(teacherId));
+            return responseMessage;
+        }
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
 
     @DeleteMapping(path = "/")
-    public @ResponseBody String removeClass (@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId) {
+    public @ResponseBody HashMap<String, String> removeClass (@RequestHeader("Authorization") String requestTokenHeader, @RequestBody UUID classId) {
 
+        HashMap<String , String> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"admin" } , requestTokenHeader)) {
 
             classRepository.deleteById(classId);
-            return  "Deleted Class";
+            responseMessage.put("Success" , "Deleted class");
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
     @PostMapping(path = "/student")
-    public @ResponseBody String addStudent(@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId , UUID studentId) {
+    public @ResponseBody HashMap<String, String> addStudent(@RequestHeader("Authorization") String requestTokenHeader, @RequestBody UUID classId , UUID studentId) {
+        HashMap<String , String> responseMessage = new HashMap<>();
         String jwtToken = requestTokenHeader.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
         JwtUserDetails userDetails = (JwtUserDetails) this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)|| userDetails.getId() == studentId) {
             MClass mClass = classRepository.findById(classId);
             mClass.addStudent(studentId);
-            return "Added student to classroom";
+
+            responseMessage.put("Success" , "Added student to class");
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
     @PostMapping(path = "/student/remove")
-    public @ResponseBody String removeStudent(@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody UUID classId  , UUID student) {
+    public @ResponseBody HashMap<String , String> removeStudent(@RequestHeader("Authorization") String requestTokenHeader ,@RequestBody UUID classId  , UUID studentId) {
+        HashMap<String , String> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)) {
             MClass mClass = classRepository.findById(classId);
-            mClass.removeStudent(student);
-            return "Removed student from class";
+            mClass.removeStudent(studentId);
+            responseMessage.put("Success" , "Removed student from class");
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
     @PostMapping(path = "/student/change")
-    public @ResponseBody String changeStudent(@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId, UUID oStudent, UUID nStudent ) {
+    public @ResponseBody HashMap<String , String> changeStudent(@RequestHeader("Authorization") String requestTokenHeader,@RequestBody UUID classId, UUID oStudentId, UUID nStudentId ) {
+        HashMap<String , String> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)) {
             MClass mClass = classRepository.findById(classId);
-            mClass.changeStudent(oStudent, nStudent);
-            return "Change students in class";
+            mClass.changeStudent(oStudentId, nStudentId);
+
+            responseMessage.put("Success" , "Switch the two given students");
+            return responseMessage;
         }
-        return "you do not have the privileges for this action";
+        responseMessage.put("Error","You do not have the privileges for this action" );
+        return responseMessage;
     }
     public boolean checkAuth(String[] roles, String requestTokenHeader) {
         String jwtToken = requestTokenHeader.substring(7);

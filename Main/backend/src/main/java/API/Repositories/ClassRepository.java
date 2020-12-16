@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface ClassRepository extends CrudRepository<MClass , Integer> {
     MClass findById(UUID id);
     void deleteById(UUID id);
+
+    Object findByTeacherId(UUID teacherId);
 }

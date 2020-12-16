@@ -13,15 +13,20 @@ public class MUser {
     private String password;
     private String role;
 
-    public UUID getId() {return  id;}
-    public void setId(UUID id) {
+    public MUser(UUID id ,
+                 String username ,
+                 String password,
+                 String role
+    ) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
-    public String getUsername() {return username;}
-    public void setUsername(String username) {this.username= username;}
 
+    public UUID getId() {return  id;}
+    public String getUsername() {return username;}
     public String getPassword() {return  password;}
-    public void setPassword(String password) {this.password = password;}
 
     public static boolean choicefields(MUser muser) {
         if (muser.getUsername().isBlank() || muser.getPassword().isBlank() ) {

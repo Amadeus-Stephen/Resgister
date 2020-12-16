@@ -16,22 +16,54 @@ public class MStudent {
 	private String firstName;
 	private String lastName;
 	private String middleName;
-	private Integer gradeYear;
+	private Integer finalYear;
 	private String careerPath;
 	private String email;
 	private String role;
 	private String password;
-	public UUID getId() {
-		return id;
-	}
 
 	public void setId(UUID id) {
 		this.id = id;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public void setFinalYear(Integer finalYear) {
+		this.finalYear = finalYear;
+	}
+
+	public void setCareerPath(String careerPath) {
+		this.careerPath = careerPath;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
 	public String getUsername() {return  username;}
 
-	public void setUsername(String username) {this.username = username;}
 	public ArrayList<String> getName() {
 		ArrayList<String> fullName = new ArrayList<>();
 		fullName.add(firstName);
@@ -50,42 +82,25 @@ public class MStudent {
 	}
 
 
-
-	public void setName(String firstName , String middleName, String lastName) {
-		this.firstName = firstName;
-		this.middleName = middleName;
-		this.lastName = lastName;
+	public Integer getFinalYear() {
+		return finalYear;
 	}
 
-	public Integer getGradeYear() {
-		return gradeYear;
-	}
-
-	public void setGradeYear(int gradeYear) {
-		this.gradeYear = gradeYear;
-	}
 
 	public String getCareerPath() {
 		return careerPath;
 	}
 
-	public void setCareerPath(String careerPath) {
-		this.careerPath = careerPath;
-	}
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public String getRole() {return role;}
 
-	public void setRole(String role) {this.role = role;}
 	public String getPassword() {return  password;}
 	public  void  setPassword(String password) {this.password = password;}
 	public static boolean choicefields(MStudent MStudent){
-		if (MStudent.getGradeYear() == null
+		if (MStudent.getFinalYear() == null
 				|| MStudent.getEmail().isBlank()
 				|| MStudent.getUsername().isBlank()
 				|| MStudent.getRole().isBlank()

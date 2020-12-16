@@ -1,15 +1,18 @@
 import React from "react"
-
+import {Link } from "react-router-dom"
+import {Card , Button} from "react-bootstrap"
 export default function leftNavCard(props) {
         return (
-		<div className="card primebg">
-  			<div className="card-header" id="headingTwo">
+		<Card className="primebg">
+  			<Card.Header className="card-header" id="headingTwo">
       			<h5 className="mb-0">
-        			<button className="btn btn-link collapsed" >
+        			<Button variant="link" className=" collapsed"  >
+						<Link to={`${props.link}`}>
 						{props.text}
-        			</button>
+						</Link>	
+        			</Button>
     			</h5>
-			</div>
-		</div>
+			</Card.Header>
+		</Card>
         )
 }
