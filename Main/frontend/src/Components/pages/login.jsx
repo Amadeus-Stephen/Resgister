@@ -21,6 +21,7 @@ export default class Login extends Component {
     componentWillUnmount() {
         this._isMounted = false;
     }
+
     handleChange(event) {
         this.setState({ 
             [event.target.name]:event.target.value
@@ -33,15 +34,14 @@ export default class Login extends Component {
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
                 AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
-                console.log(response.data)
             }).then(() => { 
                 Axios.get(`${this.props.proxy}/user/`, 
                 {headers: 
                     {authorization: AuthenticationService.getSessionToken()
                     }
                 }).then((response) => {
-                    console.log(response.data)
-                    // this.setState({redirectTo:`/${response.data[2]}/dash`})
+                    //console.log(response.data.role)
+                    this.setState({redirectTo:`/${response.data.role}/dash`})
                 })
 
                 // Axios.post(`${this.props.proxy}/admin/create`, 

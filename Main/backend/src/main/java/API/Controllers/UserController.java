@@ -31,6 +31,8 @@ public class UserController {
     @GetMapping(path = "/")
     public @ResponseBody HashMap<String, ? extends Object> getUserData(@RequestHeader("Authorization") String requestTokenHeader) {
         JwtUserDetails userDetails= getUserDetails(requestTokenHeader);
+        HashMap <String , String> responseMessage = new HashMap<>();
+
         if (userDetails.getRole().equals("director") || userDetails.getRole().equals("teacher")) {
             MAdmin mAdmin =  adminRepository.findByUsername(userDetails.getUsername());
             HashMap<String, Object> adminToJson = new HashMap<>();
@@ -47,7 +49,6 @@ public class UserController {
             studentToJson.put("role", student.getRole());
             return  studentToJson;
         }
-        HashMap <String , String> responseMessage = new HashMap<>();
         responseMessage.put("Error","You do not have the privileges for this action" );
         return responseMessage;
     }
