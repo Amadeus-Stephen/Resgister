@@ -1,9 +1,10 @@
+
 import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import {Card, Form , Button}from 'react-bootstrap'
-import AuthenticationService from "../../../service/AuthenticationService"
-
-export default class studentLogin extends Component {
+import AuthenticationService from "../../service/AuthenticationService"
+import Axios from "axios"
+export default class Login extends Component {
     _isMounted = false;
     constructor(props) {
         super(props)
@@ -20,6 +21,7 @@ export default class studentLogin extends Component {
     componentWillUnmount() {
         this._isMounted = false;
     }
+
     handleChange(event) {
         this.setState({ 
             [event.target.name]:event.target.value
@@ -32,9 +34,33 @@ export default class studentLogin extends Component {
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
                 AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
-                console.log(response.data)
             }).then(() => { 
-                this.setState({redirectTo:"/student/dash"})
+                Axios.get(`${this.props.proxy}/user/`, 
+                {headers: 
+                    {authorization: AuthenticationService.getSessionToken()
+                    }
+                }).then((response) => {
+                    //console.log(response.data.role)
+                    this.setState({redirectTo:`/${response.data.role}/dash`})
+                })
+
+                // Axios.post(`${this.props.proxy}/admin/create`, 
+                // {
+                //     username: "bwconn",
+                //     firstName:"Bill",
+                //     lastName:"Conn",
+                //     middleName:"Willam",
+                //     email:"bill.conn@wburg.kyschool.us",
+                //     role:"director",
+                //     password:"bc123"
+                // },
+                // {
+		        // 	headers: {
+		        // 		authorization: AuthenticationService.getSessionToken()
+		        // 	}
+                // }).then((response) => {console.log(response.data)})
+
+                // Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
             }).catch((e) => {
                 console.log(e);
         })

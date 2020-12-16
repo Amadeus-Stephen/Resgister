@@ -8,18 +8,8 @@ export default class StudentDash extends Component {
     // }
     componentDidMount() {
         this._isMounted = true;
-        console.log(AuthenticationService.getSessionToken())
-        // Axios.post(`${this.props.proxy}/user/`, 
-        // {
-		// 	username:"raschwarz23",
-		// 	password:"ras17073"
-        // },
-        // {
-        //     headers:{
-		// 		authorization:AuthenticationService.getSessionToken()
-		// 	}
-        // }).then((response) => {console.log(response.data)})
-        // Axios.get(`${this.props.proxy}/user/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
+        // console.log(AuthenticationService.getSessionToken())
+        Axios.get(`${this.props.proxy}/user/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
         
         // Axios.post(`${this.props.proxy}/student/`, 
         // {
@@ -40,23 +30,8 @@ export default class StudentDash extends Component {
 		// }).then((response) => {console.log(response.data)})
 
         // Axios.get(`${this.props.proxy}/student/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
-        // Axios.post(`${this.props.proxy}/teacher/`, 
-        // {
-        //     username: "jtjeffers",
-        //     firstName:"Jocab",
-        //     lastName:"Jeffers",
-        //     middleName:"Tyler",
-        //     email:"jacob.jeffers@wburg.kyschool.us",
-        //     role:"teacher",
-        //     password:"jj123"
-        // },
-        // {
-		// 	headers: {
-		// 		authorization: AuthenticationService.getSessionToken()
-		// 	}
-        // }).then((response) => {console.log(response.data)})
 
-        Axios.get(`${this.props.proxy}/teacher/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
+        Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
     }
     componentWillUnmount() {
         this._isMounted = false

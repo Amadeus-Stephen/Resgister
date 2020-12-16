@@ -6,32 +6,40 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import "./App.css"
 import "./w3.css"
 import Home from "./Components/pages/home"
-import AdminLogin from "./Components/pages/admin/adminLogin"
-import StudentLogin from "./Components/pages/student/studentLogin"
+import Login from "./Components/pages/login"
 import StudentDash from "./Components/pages/student/studentDash"
+import DirectorDash from "./Components/pages/admin/director/directorDash"
+import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
 import AuthenticatedRoute from "./Components/utils/authenticateRoute"
 import AuthenticationService from "./service/AuthenticationService"
-import Axios from "axios"
+// import Axios from "axios"
 class App extends Component {
 	_isMounted = false;
 	constructor() {
     	super()
 		this.proxy = "http://localhost:8080";
-      // this.SignUp = this.SignUp.bind(this)
       // this.socketClient = React.createRef();
-      	this.state ={ logedIn : false , redirectTo: null}
+		this.state ={ 
+				logedIn : false ,
+				redirectTo: null ,
+				id:null,
+				name: [],
+				role:""  }
+		this.updateAppState = this.updateAppState.bind(this)	  
   	}
   	componentDidMount() {
 		this._isMounted = true;
 		console.log(AuthenticationService.isUserLoggedIn())
 		this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
-        // Axios.get(`${this.proxy}/teacher/`).then(response => {console.log(response.data)})
-        // Axios.get(`${this.proxy}/student/`).then((response) => {console.log(response.data)})
 		
   	}
   	componentWillUnmount() {
 		this._isMounted = false;
- 	}
+	 }  
+	 updateAppState(stateObject) {
+		this.setState(stateObject);
+	}
+	
   	render() {
     // let socket
     // if (this.state.logedIn) { 
@@ -53,10 +61,15 @@ class App extends Component {
 			<Router>
 				<Switch>
 					<Route path="/" exact render={() => <Home />} />
-					<Route path="/admin/login"  render={() => <AdminLogin /> } />
-					<Route path="/student/login"  render={() => <StudentLogin /> } />
-					<AuthenticatedRoute path="/student/dash"  redirect="/student/login" >
+					<Route path="/login" exact render={() => <Login proxy={this.proxy}/>} />
+					<AuthenticatedRoute path="/student/dash"  redirect="/login" >
 						<StudentDash proxy={this.proxy}/>
+					</AuthenticatedRoute>
+					<AuthenticatedRoute path="/teacher/dash"  redirect="/login" >
+						<TeacherDash proxy={this.proxy}/>
+					</AuthenticatedRoute>
+					<AuthenticatedRoute path="/director/dash"  redirect="/login" >
+						<DirectorDash proxy={this.proxy} updateAppState={this.updateAppState} role={this.state.role}/>
 					</AuthenticatedRoute>
 				</Switch>
 			</Router>
