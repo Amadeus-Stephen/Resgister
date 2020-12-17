@@ -70,7 +70,7 @@ export default class Login extends Component {
             return <Redirect to={{ pathname: this.state.redirectTo }} />;
         } else {
         return (
-            <div className="col-md-6 mt-1 m-auto ">
+            <div className="col-md-6 mt-1  ">
                 <Card className="card-body primebg">
                     <h1 className="text-center mb-3">Login</h1>
                     <Form onSubmit={this.handleSubmit} >

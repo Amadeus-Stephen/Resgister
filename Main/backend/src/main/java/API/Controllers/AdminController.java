@@ -35,15 +35,16 @@ public class AdminController {
     public @ResponseBody HashMap<String, String> addNewAdmin (@RequestHeader("Authorization") String requestTokenHeader, @RequestBody MAdmin mAdmin ) {
         HashMap <String , String> responseMessage = new HashMap<>();
         if (checkAuth(new String[]{"director", "teacher"} , requestTokenHeader)) {
-            if (MAdmin.choicefields(mAdmin)) {
-                String encodedPassword = bCryptPasswordEncoder.encode(mAdmin.getPassword());
-                mAdmin.setPassword(encodedPassword);
-                adminRepository.save(mAdmin);
-                responseMessage.put("Success","Created a new admin");
-                return responseMessage;
-            }
-            responseMessage.put("Error","Some fields are missing");
-            return responseMessage;
+            System.out.println(mAdmin.getPassword());
+//            if (MAdmin.choicefields(mAdmin)) {
+//                String encodedPassword = bCryptPasswordEncoder.encode(mAdmin.getPassword());
+//                mAdmin.setPassword(encodedPassword);
+//                adminRepository.save(mAdmin);
+//                responseMessage.put("Success","Created a new admin");
+//                return responseMessage;
+//            }
+//            responseMessage.put("Error","Some fields are missing");
+//            return responseMessage;
         }
         responseMessage.put("Error","You do not have the privileges for this action" );
         return responseMessage;

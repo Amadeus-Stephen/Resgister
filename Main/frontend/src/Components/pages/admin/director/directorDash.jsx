@@ -1,7 +1,4 @@
 import React , {Component} from "react"
-import Axios from "axios"
-import AuthenticationService from "../../../../service/AuthenticationService";
-import NavBar from "../../../nav/navBar"
 export default class DirectorDash extends Component {
     _isMounted = false
     constructor(props) {
@@ -12,15 +9,6 @@ export default class DirectorDash extends Component {
     }
     componentDidMount() {
         this._isMounted = true;
-        Axios.get(`${this.props.proxy}/user/`,
-            {headers:
-                {authorization:
-                    AuthenticationService.getSessionToken()
-                }
-            }
-        ).then((response) => {
-            this.updateAppState(response.data)
-        })
     }
     componentWillUnmount() {
         this._isMounted = false
