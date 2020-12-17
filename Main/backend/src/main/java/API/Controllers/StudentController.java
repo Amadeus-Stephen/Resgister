@@ -30,10 +30,9 @@ public class StudentController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	@PostMapping(path="/") // Map ONLY POST Requests
+	@PostMapping(path="/create") // Map ONLY POST Requests
 	public @ResponseBody HashMap<String, String> addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mStudent) {
 		HashMap<String , String> responseMessage = new HashMap<>();
-
 		if (checkAuth(new String[] {"admin"} ,requestTokenHeader)) {
 			if (MStudent.choicefields(mStudent)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(mStudent.getPassword());
