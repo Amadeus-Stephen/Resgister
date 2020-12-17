@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 // import SockJsClient from 'react-stomp'
 // import axios from "axios"
-import { BrowserRouter as Router , Route,  } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import "./App.css"
 import "./w3.css"
@@ -22,7 +22,7 @@ import CreateNewUser from "./Components/pages/admin/director/createNewUser"
 import Navbar from "./Components/nav/navBar"
 import AuthenticatedRoute from "./Components/utils/authenticateRoute"
 import AuthenticationService from "./service/AuthenticationService"
-// import Axios from "axios"
+import Axios from "axios"
 class App extends Component {
 	_isMounted = false;
 	constructor() {
@@ -41,6 +41,17 @@ class App extends Component {
 		this._isMounted = true;
 		console.log(AuthenticationService.isUserLoggedIn())
 		this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
+		if (AuthenticationService.isUserLoggedIn()) {
+        	Axios.get(`${this.proxy}/user/`,
+            	{headers:
+            	    {authorization:
+            	        AuthenticationService.getSessionToken()
+            	    }
+            	}
+        	).then((response) => {
+            	this.updateAppState(response.data)
+        	})
+		}
 		
   	}
   	componentWillUnmount() {
@@ -69,22 +80,19 @@ class App extends Component {
       {/* {socket} */}
 		<div className="center page">
 			<Navbar role={this.state.role} />
-				<Router>
 
 					<Route path="/" exact render={() => <Home />} />
 					<Route path="/login" exact render={() =>  <Login proxy={this.proxy}/>  } />
-					<Route path="/student/dash" render={() => 
+					<Route path="/student/dash" render={() =>
 						<AuthenticatedRoute redirect="/login" >
 							<StudentDash proxy={this.proxy}/>
 						</AuthenticatedRoute>
 					} />
 
 					<Route path="/teacher/dash" render={() => 
-					
-					<AuthenticatedRoute path="/teacher/dash"  redirect="/login" >
-						<TeacherDash proxy={this.proxy}/>
-					</AuthenticatedRoute>
-
+						<AuthenticatedRoute  redirect="/login" >
+							<TeacherDash proxy={this.proxy}/>
+						</AuthenticatedRoute>
 					} />
 
 					<Route path="/director/dash/"  render={() => 
@@ -98,7 +106,6 @@ class App extends Component {
 						</AuthenticatedRoute>	
 					} />
 
-				</Router>
 		</div>
 	</div>
     )

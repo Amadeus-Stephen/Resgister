@@ -6,11 +6,11 @@ export default function leftNavCard(props) {
 		<Card className="primebg">
   			<Card.Header>
       			<h5 className="mb-0">
-        			<Button variant="link" onClick={props.handleClick}>
-						<Link to={`${props.link}`}>
-						{props.text}
-						</Link>	
-        			</Button>
+					<Link to={`${props.link}`}>
+        				<Button variant="link" onClick={props.handleClick}>
+							{props.text}
+        				</Button>
+					</Link>	
     			</h5>
 			</Card.Header>
 		</Card>

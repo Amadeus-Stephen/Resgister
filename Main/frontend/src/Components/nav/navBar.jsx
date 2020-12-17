@@ -2,7 +2,7 @@ import React , {Component} from "react"
 import {Accordion, Button, Card, Navbar} from "react-bootstrap"
 import ListItem from "./navComponents/listItem"
 import AuthenticationService from "../../service/AuthenticationService"
-import DropDownItem from "./navComponents/dropDownItem"
+// import DropDownItem from "./navComponents/dropDownItem"
 import { Link } from "react-router-dom"
 export default class LeftNav extends Component {
 	constructor(props) {
@@ -49,9 +49,11 @@ export default class LeftNav extends Component {
 				<Card className="primebg mt-5">
 					<Card.Header className="mt-5">
 						<span className="mb-0" >
-							<Button  variant="link" onClick={this.handleClick}>
-								<Link to={`/${this.props.role}/dash`} >Home</Link>
-							</Button>
+							<Link to={`/${this.props.role}/dash`} >
+								<Button  variant="link" onClick={this.handleClick}>
+									Home
+								</Button>
+							</Link>
 						</span>
 					</Card.Header>
 					<Accordion>
@@ -65,9 +67,11 @@ export default class LeftNav extends Component {
 				<Card className="primebg nav-link">
 					<Card.Header >
 						<h5 className="mb-0">
-							<Button variant="link" onClick={this.handleClick}>
-								<Link to="/" onClick={AuthenticationService.logout}>Logout</Link>
-							</Button>
+							<Link to="/" onClick={AuthenticationService.logout}>
+								<Button variant="link" onClick={this.handleClick}>
+									Logout
+								</Button>
+							</Link>
 						</h5>
 					</Card.Header>
 				</Card>
