@@ -17,6 +17,7 @@ import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
 
 //Utils Admin
 import CreateNewUser from "./Components/pages/admin/director/createNewUser"
+import GetAdmins from "./Components/pages/admin/director/getPages/getAdmins"
 
 //System
 import Navbar from "./Components/nav/navBar"
@@ -103,7 +104,7 @@ class App extends Component {
 		<div className="center page">
 			<Navbar role={this.state.role} />
 			<Route path="/" exact render={() => <Home />} />
-			<Route path="/login" exact render={() =>  <Login proxy={this.proxy}/>  } />
+			<Route path="/login" exact render={() =>  <Login proxy={this.proxy} updateAppState={this.updateAppState}/>  } />
 			<Route path="/student/dash" render={() =>
 				<AuthenticatedRoute redirect="/login" >
 					<StudentDash proxy={this.proxy}/>
@@ -118,13 +119,19 @@ class App extends Component {
 
 			<Route path="/director/dash/"  render={() => 
 				<AuthenticatedRoute redirect="/login">
-					<DirectorDash proxy={this.proxy} updateAppState={this.updateAppState} />
+					<DirectorDash proxy={this.proxy} firstName={this.state.name[0]} lastName={this.state.name[2]} updateAppState={this.updateAppState} />
 				</AuthenticatedRoute>
 			} />
 			<Route path="/director/create/user/"  render={() =>  
 				<AuthenticatedRoute redirect="/login" >
 					<CreateNewUser proxy={this.proxy} addFlash={this.addFlash} />
 				</AuthenticatedRoute>	
+			} />
+
+			<Route path="/director/get/admins/" render={() => 
+				<AuthenticatedRoute redirect="/login" >
+					<GetAdmins proxy={this.proxy}  addFlash={this.addFlash}/>
+				</AuthenticatedRoute>
 			} />
 		</div>
 		{this.renderFlash()}
