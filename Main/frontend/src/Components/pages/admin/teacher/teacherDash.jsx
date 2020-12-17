@@ -41,7 +41,7 @@ export default class TeacherDash extends Component {
 		// 		authorization: AuthenticationService.getSessionToken()
 		// 	}
         // }).then((response) => {console.log(response.data)})
-        Axios.delete(`${this.props.proxy}/admin/bwconn`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
+        // Axios.delete(`${this.props.proxy}/admin/bwconn`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
         Axios.get(`${this.props.proxy}/admin/`, {headers: {authorization: AuthenticationService.getSessionToken()}}).then((response) => {console.log(response.data)})
     }
     componentWillUnmount() {
