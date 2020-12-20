@@ -1,7 +1,7 @@
 import React , {Component} from "react"
-// import {Card} from "react-bootstrap"
+import {Card} from "react-bootstrap"
 import Axios from "axios"
-import User from "./subComponents/user"
+import User from "../../subComponents/user"
 import AuthenticationService from "../../../../../service/AuthenticationService"
 import { render } from "@testing-library/react"
 
@@ -44,9 +44,11 @@ export default class GetAdmins extends Component {
 				})
 			)
 		}
-		render (
-			<div>
-			</div>
+		return (
+        	<Card className="primebg w3-container w3-animate-bottom  center">
+            	<h6>We could not find any admins in our database</h6>
+				<h6>try adding some with the add features</h6>
+        	</Card>
 		)
 	}
 	render() {

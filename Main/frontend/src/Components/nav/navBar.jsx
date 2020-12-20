@@ -34,6 +34,7 @@ export default class LeftNav extends Component {
 				{(this.props.role === "director") ?
 				<div>
 					<ListItem text="Add New User" link="/director/create/user/" handleClick={this.handleClick}/>
+					<ListItem text="Add New Class" link="/director/create/classes" handleClick={this.handleClick} />
 					<ListItem text="Get Classes" link="/director/get/classes/" handleClick={this.handleClick}/>
 					<ListItem text="Get Admins" link="/director/get/admins/" handleClick={this.handleClick}/>
 					<ListItem text="Get Students" link="/director/get/students/" handleClick={this.handleClick}/>

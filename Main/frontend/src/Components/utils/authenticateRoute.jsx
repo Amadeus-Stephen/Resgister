@@ -7,7 +7,7 @@ export default class AuthenticatedRoute extends Component {
         if (AuthenticationServive.isUserLoggedIn()) {
             return {...this.props.children} 
         } else {
-            return <Redirect to={{pathname:this.props.redirect}} />
+            return <Redirect to="/login" />
         }
     }    
 }

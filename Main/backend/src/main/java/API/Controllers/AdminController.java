@@ -54,9 +54,9 @@ public class AdminController {
     public @ResponseBody HashMap<String, Object> getAllAdmins(@RequestHeader("Authorization") String requestTokenHeader) {
         HashMap<String , Object> responseMessage = new HashMap<>();
         if (checkAuth(new String[]{"teacher" , "director"} , requestTokenHeader)) {
-            ArrayList<MAdmin> adminList = (ArrayList<MAdmin>) adminRepository.findAll();
-            for (int i = 0 ; i < adminList.size() ; i++ ) {
-                MAdmin admin = adminList.get(i);
+            ArrayList<MAdmin> adminArrayList = (ArrayList<MAdmin>) adminRepository.findAll();
+            for (int i = 0 ; i < adminArrayList.size() ; i++ ) {
+                MAdmin admin = adminArrayList.get(i);
                 admin.setPassword("password");
             }
             responseMessage.put("Success" , adminRepository.findAll());

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -33,7 +34,7 @@ public class StudentController {
 	@PostMapping(path="/create") // Map ONLY POST Requests
 	public @ResponseBody HashMap<String, String> addNewStudent (@RequestHeader("Authorization")String requestTokenHeader, @RequestBody MStudent mStudent) {
 		HashMap<String , String> responseMessage = new HashMap<>();
-		if (checkAuth(new String[] {"admin"} ,requestTokenHeader)) {
+		if (checkAuth(new String[] {"director"} ,requestTokenHeader)) {
 			if (MStudent.choicefields(mStudent)) {
 				String encodedPassword = bCryptPasswordEncoder.encode(mStudent.getPassword());
 				mStudent.setPassword(encodedPassword);
@@ -52,7 +53,12 @@ public class StudentController {
 	public @ResponseBody HashMap<String, Object> getAllStudents(@RequestHeader("Authorization") String requestTokenHeader) {
 
 		HashMap<String , Object> responseMessage = new HashMap<>();
-		if (checkAuth(new String[]{"admin", "teacher"} , requestTokenHeader)) {
+		if (checkAuth(new String[]{"teacher", "director"} , requestTokenHeader)) {
+			ArrayList<MStudent> studentArrayList = (ArrayList<MStudent>) studentRepository.findAll();
+			for (int i = 0; i < studentArrayList.size() ; i++ ) {
+				MStudent student = studentArrayList.get(i);
+				student.setPassword("password");
+			}
 			responseMessage.put("Success", studentRepository.findAll());
 			return responseMessage;
 		}

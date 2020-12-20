@@ -17,8 +17,11 @@ import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
 
 //Utils Admin
 import CreateNewUser from "./Components/pages/admin/director/createNewUser"
-import GetAdmins from "./Components/pages/admin/director/getPages/getAdmins"
+import CreateNewClass from "./Components/pages/admin/director/createNewClass"
 
+import GetAdmins from "./Components/pages/admin/director/getPages/getAdmins"
+import GetStudents from "./Components/pages/admin/director/getPages/getStudents"
+import GetClasses from "./Components/pages/admin/director/getPages/getClasses"
 //System
 import Navbar from "./Components/nav/navBar"
 import ThrowFlash from "./Components/utils/thowFlash"
@@ -127,10 +130,25 @@ class App extends Component {
 					<CreateNewUser proxy={this.proxy} addFlash={this.addFlash} />
 				</AuthenticatedRoute>	
 			} />
-
+			<Route path="/director/create/classes/" render={() => 
+				<AuthenticatedRoute >
+					<CreateNewClass proxy= {this.proxy} addFlash={this.addFlash} />
+				</AuthenticatedRoute> 
+			}  />
 			<Route path="/director/get/admins/" render={() => 
 				<AuthenticatedRoute redirect="/login" >
 					<GetAdmins proxy={this.proxy}  addFlash={this.addFlash}/>
+				</AuthenticatedRoute>
+			} />
+			<Route path="/director/get/students/" render={() => 
+				<AuthenticatedRoute redirect="/login" >
+					<GetStudents proxy={this.proxy} addFlash={this.addFlash} />	
+			</AuthenticatedRoute>	
+			} />
+
+			<Route path="/director/get/classes/" render={() =>
+				<AuthenticatedRoute redirect="/login">
+					<GetClasses proxy={this.proxy} addFlash={this.addFlash} />
 				</AuthenticatedRoute>
 			} />
 		</div>

@@ -2,7 +2,7 @@ import React , {Component} from "react"
 import Axios from "axios"
 import AuthenticationService from "../../../../service/AuthenticationService";
 import NavBar from "../../../nav/navBar"
-import Class from "./class"
+import Class from "../subComponents/class"
 export default class TeacherDash extends Component {
     _isMounted = false
     constructor(props) {
