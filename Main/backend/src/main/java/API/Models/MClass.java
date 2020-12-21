@@ -38,7 +38,6 @@ public class MClass {
     }
     public UUID getId()  { return  id;}
 
-
     public String getClassName() {return className;}
 
     public UUID getTeacherId() {return teacherId;}
@@ -46,6 +45,10 @@ public class MClass {
 
     public String getTeacherUsername() {
         return teacherUsername;
+    }
+
+    public Integer getPeriod() {
+        return period;
     }
 
     public int getNumOfStudents() {

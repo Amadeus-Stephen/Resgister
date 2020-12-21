@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import {Card, Form , Button, Col}from 'react-bootstrap'
-import AuthenticationService from "../../../../service/AuthenticationService"
+import AuthenticationService from '../../../../../service/AuthenticationService'
 import Axios from "axios"
 export default class CreateNewUser extends Component {
 	_isMounted = false;

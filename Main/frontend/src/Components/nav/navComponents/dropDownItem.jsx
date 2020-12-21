@@ -10,7 +10,7 @@ export default function LeftNavDrop(props) {
                 </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey={`${props.num}`}>
-                <Card.Body variant="prime" >{props.text}</Card.Body>
+                <Card.Body variant="prime" >{props.children}</Card.Body>
             </Accordion.Collapse>
         </Card>
     )

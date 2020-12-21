@@ -2,7 +2,7 @@ import React , {Component} from "react"
 import {Accordion, Button, Card, Navbar} from "react-bootstrap"
 import ListItem from "./navComponents/listItem"
 import AuthenticationService from "../../service/AuthenticationService"
-// import DropDownItem from "./navComponents/dropDownItem"
+import DropDownItem from "./navComponents/dropDownItem"
 import { Link } from "react-router-dom"
 export default class LeftNav extends Component {
 	constructor(props) {
@@ -33,11 +33,15 @@ export default class LeftNav extends Component {
 			<div>
 				{(this.props.role === "director") ?
 				<div>
-					<ListItem text="Add New User" link="/director/create/user/" handleClick={this.handleClick}/>
-					<ListItem text="Add New Class" link="/director/create/classes" handleClick={this.handleClick} />
-					<ListItem text="Get Classes" link="/director/get/classes/" handleClick={this.handleClick}/>
-					<ListItem text="Get Admins" link="/director/get/admins/" handleClick={this.handleClick}/>
-					<ListItem text="Get Students" link="/director/get/students/" handleClick={this.handleClick}/>
+					<DropDownItem title="Create" num="1">
+						<ListItem text="Add New User" link="/director/create/user/" handleClick={this.handleClick}/>
+						<ListItem text="Add New Class" link="/director/create/classes" handleClick={this.handleClick} />
+					</DropDownItem>
+					<DropDownItem title="View" num="2">
+						<ListItem text="Get Classes" link="/director/get/classes/" handleClick={this.handleClick}/>
+						<ListItem text="Get Admins" link="/director/get/admins/" handleClick={this.handleClick}/>
+						<ListItem text="Get Students" link="/director/get/students/" handleClick={this.handleClick}/>
+					</DropDownItem>
 				</div>
 				:""}
 			</div>   

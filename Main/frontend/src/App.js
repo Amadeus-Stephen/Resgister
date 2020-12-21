@@ -16,8 +16,8 @@ import DirectorDash from "./Components/pages/admin/director/directorDash"
 import TeacherDash from "./Components/pages/admin/teacher/teacherDash"
 
 //Utils Admin
-import CreateNewUser from "./Components/pages/admin/director/createNewUser"
-import CreateNewClass from "./Components/pages/admin/director/createNewClass"
+import CreateNewUser from "./Components/pages/admin/director/createPages/createNewUser"
+import CreateNewClass from "./Components/pages/admin/director/createPages/createNewClass"
 
 import GetAdmins from "./Components/pages/admin/director/getPages/getAdmins"
 import GetStudents from "./Components/pages/admin/director/getPages/getStudents"

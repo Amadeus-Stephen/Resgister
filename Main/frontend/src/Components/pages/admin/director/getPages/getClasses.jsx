@@ -40,8 +40,14 @@ export default class GetClasses extends Component {
 		const { classes } = this.state;
 		if(classes.length > 0) {
 			return (
-				classes.map(({name , role , username, email} , idx) => {
-                return   <Class />
+				classes.map(({className ,teacherUsername,  numOfStudents, period} , idx) => {
+				return   <Class 
+							name={className}
+							teacherUsername={teacherUsername} 
+							numOfStudents={numOfStudents} 
+							period={period}
+							key={idx}
+						/>
 				})
 			)
 		}
