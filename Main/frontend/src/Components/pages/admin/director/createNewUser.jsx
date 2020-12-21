@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import {Card, Form , Button, Col}from 'react-bootstrap'
-import ThrowFlash from "../../../utils/thowFlash"
 import AuthenticationService from "../../../../service/AuthenticationService"
 import Axios from "axios"
 export default class CreateNewUser extends Component {
@@ -16,8 +15,8 @@ export default class CreateNewUser extends Component {
 			lastName: '',
 			middleName: '',
 			email: '',
-			carrerPath: "",
-			lastYear: "",
+			carrerPath: '',
+			lastYear: '',
 			redirectTo: null,
 			flashes: [],
 		}
@@ -134,7 +133,6 @@ export default class CreateNewUser extends Component {
 								<Form.Control onChange={e => this.handleChange(e)}  value={this.state.middleName}  name="middleName"  placeholder="Enter Middle Name" />
 							</Form.Group>
   						</Form.Row>
-						  
   						<Form.Row>
 							<Form.Group as={Col} >
 								<Form.Label>Email</Form.Label>

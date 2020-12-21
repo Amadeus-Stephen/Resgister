@@ -24,7 +24,7 @@ public class ClassController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @PostMapping(path =  "/")
+    @PostMapping(path =  "/create")
     public @ResponseBody HashMap<String, Object> addNewClass (@RequestHeader("Authorization") String requestTokenHeader , @RequestBody MClass mClass) {
         HashMap<String , Object> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"director" } , requestTokenHeader)) {
@@ -40,8 +40,10 @@ public class ClassController {
         return responseMessage;
     }
     @GetMapping(path = "/")
-    public @ResponseBody Iterable<MClass> getAllClasses() {
-        return classRepository.findAll();
+    public @ResponseBody HashMap<String  , Object> getAllClasses() {
+        HashMap<String , Object> responseMessage = new HashMap<>();
+        responseMessage.put("Success" , classRepository.findAll());
+        return responseMessage;
     }
 
     @GetMapping("/teacher/{teacherId}")

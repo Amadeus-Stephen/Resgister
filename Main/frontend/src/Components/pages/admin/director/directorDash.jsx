@@ -1,4 +1,5 @@
 import React , {Component} from "react"
+import {Card} from "react-bootstrap"
 export default class DirectorDash extends Component {
     _isMounted = false
     constructor(props) {
@@ -19,10 +20,10 @@ export default class DirectorDash extends Component {
     }
     render() {
         return (
-            <div>
-                Hello                
-            </div>
-
+        <Card className="primebg w3-container w3-animate-bottom  center">
+            <h1>Greatings </h1>
+            <h4>{this.props.firstName} {this.props.lastName}</h4>
+        </Card>
         )
     }
 }

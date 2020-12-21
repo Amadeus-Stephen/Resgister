@@ -13,10 +13,8 @@ public class MClass {
     private UUID id;
     private String className;
     private UUID teacherId;
-    private String teacherName;
-    private String startTime;
-    private String endTime;
-    private Integer runTime;
+    private String teacherUsername;
+    private Integer period;
     private ArrayList<UUID> studentList = new ArrayList<>();
 
     public void setId(UUID id) {
@@ -31,22 +29,13 @@ public class MClass {
         this.teacherId = teacherId;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setTeacherUsername(String teacherUsername) {
+        this.teacherUsername = teacherUsername;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setPeriod(Integer period) {
+        this.period = period;
     }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setRunTime(Integer runTime) {
-        this.runTime = runTime;
-    }
-
     public UUID getId()  { return  id;}
 
 
@@ -54,9 +43,10 @@ public class MClass {
 
     public UUID getTeacherId() {return teacherId;}
 
-    public String getTeacherName() {return teacherName;}
 
-
+    public String getTeacherUsername() {
+        return teacherUsername;
+    }
 
     public int getNumOfStudents() {
         return studentList.size();
@@ -85,7 +75,7 @@ public class MClass {
         }
     }
     public static boolean choicefields(MClass mclass){
-        if (mclass.getTeacherId() == null|| mclass.getClassName().isBlank()|| mclass.getTeacherName().isBlank() ) {
+        if (mclass.getTeacherId() == null|| mclass.getClassName().isBlank()|| mclass.getTeacherUsername().isBlank() ) {
             return false;
         }
         return true;

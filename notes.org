@@ -1,8 +1,0 @@
-#+TITLE: Notes ******** How I #Think authentication with the web socket will happen
-
-** Route the user to either #StudentLogin or #TeacherLogin
-*** with the user routed use the authentication method on that port with the encyption key
-**** After User has been authenticated the port #SHOULD be open to connect to from the stomp socket
-**** Since the only ports i left to be open were the #Login ports
-***** Once this is done the system can track user session in socket along with the users that have signed in
-***** this method would make sure there is no un need taxation on the server from users spamming the server
