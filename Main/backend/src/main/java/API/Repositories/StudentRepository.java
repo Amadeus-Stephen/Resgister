@@ -12,6 +12,6 @@ import java.util.UUID;
 //// CRUD refers Create, Read, Update, Delete
 @Repository
 public interface StudentRepository extends CrudRepository<MStudent, Integer> {
-    Optional<MStudent> findById(UUID id);
+    MStudent findById(UUID id);
     MStudent findByUsername(String username);
 }

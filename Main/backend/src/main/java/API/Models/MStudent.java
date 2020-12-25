@@ -21,7 +21,7 @@ public class MStudent {
 	private String email;
 	private String role;
 	private String password;
-
+	private ArrayList<UUID> classList = new ArrayList<>();
 	public void setId(UUID id) {
 		this.id = id;
 	}
@@ -64,6 +64,12 @@ public class MStudent {
 
 	public String getUsername() {return  username;}
 
+	public  void  setPassword(String password) {this.password = password;}
+
+	public void setClassList(ArrayList<UUID> classList) {
+		this.classList = classList;
+	}
+
 	public ArrayList<String> getName() {
 		ArrayList<String> fullName = new ArrayList<>();
 		fullName.add(firstName);
@@ -97,8 +103,27 @@ public class MStudent {
 
 	public String getRole() {return role;}
 
+	public ArrayList<UUID> getClassList() {
+		return classList;
+	}
+	public int getClassIndex(UUID classID) {
+		for (int num = 0; num > classList.size(); num++ ) {
+			if (classList.get(num) == classID) {
+				return  num;
+			}
+		}
+		return  -1;
+	}
+	public  void addClass(UUID classID) {
+		classList.add(classID);
+	}
+	public  void removeClass(UUID classID) {
+		int index = getClassIndex(classID);
+		if (index > -1) {
+			classList.remove(index);
+		}
+	}
 	public String getPassword() {return  password;}
-	public  void  setPassword(String password) {this.password = password;}
 	public static boolean choicefields(MStudent MStudent){
 		if (MStudent.getFinalYear() == null
 				|| MStudent.getEmail().isBlank()

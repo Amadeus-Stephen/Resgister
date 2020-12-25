@@ -51,7 +51,7 @@ export default class CreateNewUser extends Component {
 		if (this.state.role === "student") {
 			path = "student"
 			userInfo["carrerPath"] = this.state.carrerPath
-			userInfo["lastYear"] = this.state.lastYear
+			userInfo["finalYear"] = this.state.lastYear
 		} else {
 			path ="admin"
 		}

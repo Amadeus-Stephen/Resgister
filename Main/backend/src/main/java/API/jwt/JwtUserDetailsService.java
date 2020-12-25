@@ -26,12 +26,12 @@ public class JwtUserDetailsService implements UserDetailsService {
   private AdminRepository adminRepository;
 
 //  static List<JwtUserDetails> inMemoryUserList = new ArrayList<>();
-//
+
 //  static {
-//    inMemoryUserList.add(new JwtUserDetails(UUID.randomUUID(), "in28minutes",
+//    inMemoryUserList.add(new JwtUserDetails(UUID.randomUUID(),"dummy" ,
 //        "$2a$10$3zHzb.Npv1hfZbLEU5qsdOju/tk2je6W6PnNnY.c1ujWPcZh4PL6e", "director"));
 //  }
-//
+
   @Override
   public JwtUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

@@ -44,6 +44,11 @@ export default class LeftNav extends Component {
 					</DropDownItem>
 				</div>
 				:""}
+              	{(this.props.role ==="student") ?
+                 <div>
+                   <ListItem text="Join a class " link="/student/add/class" handleClick={this.handleClick}/>
+                 </div>
+                :""}
 			</div>   
 		)
 	}

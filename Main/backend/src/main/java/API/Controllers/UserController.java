@@ -34,18 +34,26 @@ public class UserController {
         HashMap <String , String> responseMessage = new HashMap<>();
 
         if (userDetails.getRole().equals("director") || userDetails.getRole().equals("teacher")) {
+                // dummy
+//            HashMap<String , Object> adminToJson = new HashMap<>();
+//            adminToJson.put("id", userDetails.getId());
+//            adminToJson.put("name" , userDetails.getUsername());
+//            adminToJson.put("role", userDetails.getRole());
             MAdmin mAdmin =  adminRepository.findByUsername(userDetails.getUsername());
             HashMap<String, Object> adminToJson = new HashMap<>();
             adminToJson.put("id", mAdmin.getId());
             adminToJson.put("name", mAdmin.getName());
+            adminToJson.put("username",mAdmin.getUsername());
             adminToJson.put("role", mAdmin.getRole());
             return adminToJson;
         }
+
         if (userDetails.getRole().equals("student")) {
             MStudent student = studentRepository.findByUsername(userDetails.getUsername());
             HashMap<String , Object> studentToJson = new HashMap<>();
             studentToJson.put("id" , student.getId());
             studentToJson.put("name", student.getName());
+            studentToJson.put("classes" , student.getClassList());
             studentToJson.put("role", student.getRole());
             return  studentToJson;
         }

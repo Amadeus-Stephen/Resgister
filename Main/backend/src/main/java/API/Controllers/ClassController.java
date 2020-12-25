@@ -1,7 +1,9 @@
 package API.Controllers;
 //
 import API.Models.MClass;
+import API.Models.MStudent;
 import API.Repositories.ClassRepository;
+import API.Repositories.StudentRepository;
 import API.jwt.JwtTokenUtil;
 import API.jwt.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -18,6 +21,8 @@ public class ClassController {
     @Autowired
     private ClassRepository classRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
     @Autowired
     UserDetailsService jwtInMemoryUserDetailsService;
 
@@ -45,12 +50,22 @@ public class ClassController {
         responseMessage.put("Success" , classRepository.findAll());
         return responseMessage;
     }
+    @PostMapping("/student/get/")
+    public  @ResponseBody HashMap<String , Object> getStudentClasses(ArrayList<UUID> classListUUID) {
+       HashMap<String , Object> responseMessage = new HashMap<>();
+       ArrayList<MClass> classList = new ArrayList<>();
 
-    @GetMapping("/teacher/{teacherId}")
-    public @ResponseBody HashMap<String, Object> getClassByTeacherId(@RequestHeader("Authorization") String requestTokenHeader, @PathVariable UUID teacherId) {
+       for (int num = 0 ; num < classListUUID.size() ; num++ ){
+            classList.add(classRepository.findById(classListUUID.get(num)));
+       }
+       responseMessage.put("Success" , classList);
+       return responseMessage;
+    }
+    @GetMapping("/teacher/{teacherUsername}/")
+    public @ResponseBody HashMap<String, Object> getClassByTeacherId(@RequestHeader("Authorization") String requestTokenHeader, @PathVariable String teacherUsername ) {
         HashMap<String , Object> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"director" , "teacher"} , requestTokenHeader)) {
-            responseMessage.put("Success", classRepository.findById(teacherId));
+            responseMessage.put("Success" , classRepository.findByTeacherUsername(teacherUsername));
             return responseMessage;
         }
         responseMessage.put("Error","You do not have the privileges for this action" );
@@ -70,7 +85,7 @@ public class ClassController {
         responseMessage.put("Error","You do not have the privileges for this action" );
         return responseMessage;
     }
-    @PostMapping(path = "/student")
+    @PostMapping(path = "/student/add/")
     public @ResponseBody HashMap<String, String> addStudent(@RequestHeader("Authorization") String requestTokenHeader, @RequestBody UUID classId , UUID studentId) {
         HashMap<String , String> responseMessage = new HashMap<>();
         String jwtToken = requestTokenHeader.substring(7);
@@ -78,6 +93,8 @@ public class ClassController {
         JwtUserDetails userDetails = (JwtUserDetails) this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)|| userDetails.getId() == studentId) {
             MClass mClass = classRepository.findById(classId);
+            MStudent mStudent = studentRepository.findById(studentId);
+            mStudent.addClass(classId);
             mClass.addStudent(studentId);
 
             responseMessage.put("Success" , "Added student to class");
@@ -92,6 +109,8 @@ public class ClassController {
         HashMap<String , String> responseMessage = new HashMap<>();
         if (checkAuth(new String[] {"admin" , "teacher"} , requestTokenHeader)) {
             MClass mClass = classRepository.findById(classId);
+            MStudent mStudent = studentRepository.findById(studentId);
+            mStudent.removeClass(classId);
             mClass.removeStudent(studentId);
             responseMessage.put("Success" , "Removed student from class");
             return responseMessage;

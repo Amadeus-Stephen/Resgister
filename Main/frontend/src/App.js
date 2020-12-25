@@ -22,6 +22,10 @@ import CreateNewClass from "./Components/pages/admin/director/createPages/create
 import GetAdmins from "./Components/pages/admin/director/getPages/getAdmins"
 import GetStudents from "./Components/pages/admin/director/getPages/getStudents"
 import GetClasses from "./Components/pages/admin/director/getPages/getClasses"
+
+
+//Utils Student
+import AddClass from "./Components/pages/student/addClass"
 //System
 import Navbar from "./Components/nav/navBar"
 import ThrowFlash from "./Components/utils/thowFlash"
@@ -29,65 +33,65 @@ import AuthenticatedRoute from "./Components/utils/authenticateRoute"
 import AuthenticationService from "./service/AuthenticationService"
 import Axios from "axios"
 class App extends Component {
-	_isMounted = false;
-	constructor() {
-    	super()
-		this.proxy = "http://localhost:8080";
+    _isMounted = false;
+    constructor() {
+        super()
+        this.proxy = "http://localhost:8080";
       // this.socketClient = React.createRef();
-		this.state ={ 
-			logedIn : false ,
-			redirectTo: null ,
-			id:null,
-			name: [],
-			role:"" ,
-			flashes : [] ,
-		}
-		this.updateAppState = this.updateAppState.bind(this)	  
-		this.addFlash = this.addFlash.bind(this)
-  	}
-  	componentDidMount() {
-		this._isMounted = true;
-		console.log(AuthenticationService.isUserLoggedIn())
-		this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
-		if (AuthenticationService.isUserLoggedIn()) {
-        	Axios.get(`${this.proxy}/user/`,
-            	{headers:
-            	    {authorization:
-            	        AuthenticationService.getSessionToken()
-            	    }
-            	}
-        	).then((response) => {
-            	this.updateAppState(response.data)
-        	})
-		}
-		
-  	}
-  	componentWillUnmount() {
-		this._isMounted = false;
-	 }  
-	 updateAppState(stateObject) {
-		this.setState(stateObject);
-	}
-	addFlash(flash) {
-    	let flashes = this.state.flashes;
-    	flashes.push(flash);
-    	this.setState({ flashes });
-  	}
-	renderFlash() {
-		return this.state.flashes.map(({ msg, success }, index) => {
-			return (
-		  		<ThrowFlash
-			  		updateAppState={this.updateAppState}
-					msg={msg}
-					success={success}
-					index={index}
-					flashes={this.state.flashes}
-					key={index}
-		  		/>
-			);
-  		});
-	}
-  	render() {
+        this.state ={ 
+            logedIn : false ,
+            redirectTo: null ,
+            id:null,
+            name: [],
+            role:"" ,
+            flashes : [] ,
+        }
+        this.updateAppState = this.updateAppState.bind(this)  
+        this.addFlash = this.addFlash.bind(this)
+    }
+    componentDidMount() {
+        this._isMounted = true;
+        console.log(AuthenticationService.isUserLoggedIn())
+        this.setState({logedIn : AuthenticationService.isUserLoggedIn()})
+        if (AuthenticationService.isUserLoggedIn()) {
+        Axios.get(`${this.proxy}/user/`,
+                {headers:
+                    {authorization:
+                        AuthenticationService.getSessionToken()
+                    }
+                }
+            ).then((response) => {
+                this.updateAppState(response.data)
+            })
+        }
+        
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }  
+    updateAppState(stateObject) {
+        this.setState(stateObject);
+    }
+    addFlash(flash) {
+        let flashes = this.state.flashes;
+        flashes.push(flash);
+        this.setState({ flashes });
+    }
+    renderFlash() {
+        return this.state.flashes.map(({ msg, success }, index) => {
+            return (
+                <ThrowFlash
+                    updateAppState={this.updateAppState}
+                    msg={msg}
+                    success={success}
+                    index={index}
+                    flashes={this.state.flashes}
+                    key={index}
+                />
+            );
+        });
+    }
+    render() {
     // let socket
     // if (this.state.logedIn) { 
     //   socket =  
@@ -104,56 +108,61 @@ class App extends Component {
     return ( 
     <div>
       {/* {socket} */}
-		<div className="center page">
-			<Navbar role={this.state.role} />
-			<Route path="/" exact render={() => <Home />} />
-			<Route path="/login" exact render={() =>  <Login proxy={this.proxy} updateAppState={this.updateAppState}/>  } />
-			<Route path="/student/dash" render={() =>
-				<AuthenticatedRoute redirect="/login" >
-					<StudentDash proxy={this.proxy}/>
-				</AuthenticatedRoute>
-			} />
+      <div className="center page">
+        <Navbar role={this.state.role} />
+            <Route path="/" exact render={() => <Home />} />
+            <Route path="/login" exact render={() =>  <Login proxy={this.proxy} updateAppState={this.updateAppState}/>  } />
+            <Route path="/student/dash" render={() =>
+                <AuthenticatedRoute redirect="/login" >
+                    <StudentDash proxy={this.proxy}/>
+                </AuthenticatedRoute>
+            } />
 
-			<Route path="/teacher/dash" render={() => 
-				<AuthenticatedRoute  redirect="/login" >
-					<TeacherDash proxy={this.proxy}/>
-				</AuthenticatedRoute>
-			} />
+            <Route path="/teacher/dash" render={() =>
+                <AuthenticatedRoute  redirect="/login" >
+                    <TeacherDash proxy={this.proxy}/>
+                </AuthenticatedRoute>
+            } />
 
-			<Route path="/director/dash/"  render={() => 
-				<AuthenticatedRoute redirect="/login">
-					<DirectorDash proxy={this.proxy} firstName={this.state.name[0]} lastName={this.state.name[2]} updateAppState={this.updateAppState} />
-				</AuthenticatedRoute>
-			} />
-			<Route path="/director/create/user/"  render={() =>  
-				<AuthenticatedRoute redirect="/login" >
-					<CreateNewUser proxy={this.proxy} addFlash={this.addFlash} />
-				</AuthenticatedRoute>	
-			} />
-			<Route path="/director/create/classes/" render={() => 
-				<AuthenticatedRoute >
-					<CreateNewClass proxy= {this.proxy} addFlash={this.addFlash} />
-				</AuthenticatedRoute> 
-			}  />
-			<Route path="/director/get/admins/" render={() => 
-				<AuthenticatedRoute redirect="/login" >
-					<GetAdmins proxy={this.proxy}  addFlash={this.addFlash}/>
-				</AuthenticatedRoute>
-			} />
-			<Route path="/director/get/students/" render={() => 
-				<AuthenticatedRoute redirect="/login" >
-					<GetStudents proxy={this.proxy} addFlash={this.addFlash} />	
-			</AuthenticatedRoute>	
-			} />
+            <Route path="/director/dash/"  render={() => 
+                <AuthenticatedRoute redirect="/login">
+                    <DirectorDash proxy={this.proxy} firstName={this.state.name[0]} lastName={this.state.name[2]} updateAppState={this.updateAppState} />
+                </AuthenticatedRoute>
+            } />
+            <Route path="/director/create/user/"  render={() =>
+                <AuthenticatedRoute redirect="/login" >
+                    <CreateNewUser proxy={this.proxy} addFlash={this.addFlash} />
+                </AuthenticatedRoute>
+            } />
+            <Route path="/director/create/classes/" render={() =>
+                <AuthenticatedRoute >
+                    <CreateNewClass proxy= {this.proxy} addFlash={this.addFlash} />
+                </AuthenticatedRoute> 
+            }  />
+            <Route path="/director/get/admins/" render={() =>
+                <AuthenticatedRoute redirect="/login" >
+                    <GetAdmins proxy={this.proxy}  addFlash={this.addFlash}/>
+                </AuthenticatedRoute>
+            } />
+            <Route path="/director/get/students/" render={() =>
+                <AuthenticatedRoute redirect="/login" >
+                    <GetStudents proxy={this.proxy} addFlash={this.addFlash} />
+                </AuthenticatedRoute>
+            } />
+            <Route path="/director/get/classes/" render={() =>
+                <AuthenticatedRoute redirect="/login">
+                    <GetClasses proxy={this.proxy} addFlash={this.addFlash} />
+                </AuthenticatedRoute>
+            } />
+        <Route path="/student/add/class" render={() =>
+            <AuthenticatedRoute redirect="/login">
 
-			<Route path="/director/get/classes/" render={() =>
-				<AuthenticatedRoute redirect="/login">
-					<GetClasses proxy={this.proxy} addFlash={this.addFlash} />
-				</AuthenticatedRoute>
-			} />
-		</div>
-		{this.renderFlash()}
-	</div>
+              <AddClass id={this.state.id}proxy={this.proxy} addFlash={this.addFlash}/>
+            </AuthenticatedRoute>
+        }/>
+        </div>
+      {this.renderFlash()}
+    </div>
     )
   }
 }

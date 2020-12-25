@@ -3,7 +3,6 @@ import {Card} from "react-bootstrap"
 import Axios from "axios"
 import Class from "../../subComponents/class"
 import AuthenticationService from "../../../../../service/AuthenticationService"
-import { render } from "@testing-library/react"
 
 export default class GetClasses extends Component {
 	_isMounted = false
@@ -28,7 +27,6 @@ export default class GetClasses extends Component {
 					
 				} else if (response.data.Success){
                     this.setState({ classes:response.data.Success})
-                    console.log(response.data)
 				}
 			} else {
                 let msg = "A server Error has taken place"
@@ -41,13 +39,13 @@ export default class GetClasses extends Component {
 		if(classes.length > 0) {
 			return (
 				classes.map(({className ,teacherUsername,  numOfStudents, period} , idx) => {
-				return   <Class 
-							name={className}
-							teacherUsername={teacherUsername} 
-							numOfStudents={numOfStudents} 
-							period={period}
-							key={idx}
-						/>
+				return <Class 
+					  	name={className}
+					  	teacherUsername={teacherUsername} 
+						numOfStudents={numOfStudents} 
+						period={period}
+						key={idx}
+					/>
 				})
 			)
 		}
